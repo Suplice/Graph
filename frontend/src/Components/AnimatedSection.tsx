@@ -9,20 +9,33 @@ interface AnimatedSectionProps {
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
-  className,
-  initialX,
+  className = "",
+  initialX = 0,
 }) => {
   const controls = useAnimation();
 
   return (
     <motion.section
       className={className}
-      initial={{ opacity: 1 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, x: initialX }}
+      whileInView={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: initialX }}
       viewport={{ once: false, amount: 0.5 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
-      onViewportEnter={() => controls.start({ opacity: 1, x: 0 })}
-      onViewportLeave={() => controls.start({ opacity: 0, x: initialX })}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      onViewportEnter={() =>
+        controls.start({
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.5, ease: "easeInOut" },
+        })
+      }
+      onViewportLeave={() =>
+        controls.start({
+          opacity: 0,
+          x: initialX,
+          transition: { duration: 1, ease: "easeInOut" },
+        })
+      }
     >
       {children}
     </motion.section>
