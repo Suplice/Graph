@@ -1,3 +1,96 @@
-body {
-  margin: 0;
+.background {
+  background: radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      50px 50px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      100px 100px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      350px 200px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      500px 300px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      600px 400px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      700px 500px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      800px 600px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      900px 700px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1000px 800px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1100px 900px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1200px 1000px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1300px 1100px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1400px 1200px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1500px 1300px,
+    radial-gradient(
+        circle,
+        rgba(112, 132, 200, 0.2) 0%,
+        rgba(21, 0, 210, 0) 30%
+      )
+      1600px 1400px;
+
+  background-color: #f0f0f0;
+  background-size: cover;
+  background-repeat: repeat;
 }
