@@ -8,13 +8,15 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
-    <Router>
-      <Layout isLoggedIn={isLoggedIn}>
-        <Routes>
-          <Route path="/" element={<Landing />}></Route>
-        </Routes>
-      </Layout>
-    </Router>
+    <div className=" w-9/12 mx-auto">
+      <Router>
+        <Layout isLoggedIn={isLoggedIn}>
+          <Routes>
+            <Route path="/" element={<Landing />}></Route>
+          </Routes>
+        </Layout>
+      </Router>
+    </div>
   );
 }
 
