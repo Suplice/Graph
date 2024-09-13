@@ -85,7 +85,7 @@ const Landing: React.FC = () => {
       </AnimatedSection>
 
       <motion.div
-        className="my-2"
+        className="my-16"
         animate={{ y: [0, 20, 0] }}
         transition={{
           duration: 2,
@@ -102,25 +102,38 @@ const Landing: React.FC = () => {
 
       {/* Feature 1 Section */}
       <AnimatedSection
-        className="flex flex-col md:flex-row items-center py-12 px-6"
+        className="flex flex-col-reverse md:flex-row py-12 px-6 justify-center reve items-center gap-10 md:gap-0  "
         initialX={80}
       >
-        <div className="md:w-1/2">
-          <h2 className="text-3xl font-bold">Feature 1: Real-Time Graphing</h2>
-          <p className="mt-4 text-lg">
-            Create and manipulate graphs in real-time with intuitive controls
-            and instant feedback. Visualize data dynamically.
+        <div className="md:w-1/2 mt-8 md:mt-0  flex justify-center items-center">
+          <div>
+            <img
+              src="/Images/GrahpPhoto2.png"
+              alt="Feature 1"
+              className="w-auto transform scale-150"
+            />
+          </div>
+        </div>
+
+        <div className="md:w-1/2 flex flex-col items-center gap-10">
+          <h2 className="text-6xl font-extrabold  text-left">
+            Real-Time Graphing
+          </h2>
+          <p className="text-lg md:text-xl text-left text-gray-600 w-5/6 font-serif ">
+            Our Real-Time Graphing tool revolutionizes how you interact with
+            mathematical functions by allowing you to graph and manipulate
+            equations dynamically. Perfect for educators, students, and data
+            analysts alike, this feature provides instant, visual feedback as
+            you adjust parameters, giving you a deeper understanding of
+            mathematical concepts and their real-world applications.
           </p>
         </div>
-        <div className="md:w-1/2 mt-8 md:mt-0 md:pl-12">
-          <img
-            src="https://via.placeholder.com/500"
-            alt="Feature 1"
-            className="rounded-lg shadow-lg"
-          />
-        </div>
       </AnimatedSection>
-
+      <div className="flex justify-center items-center">
+        <button className="shadow-2xl w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 hover:bg-zinc-600 text-white transition-colors duration-500 my-32">
+          Try it out!
+        </button>
+      </div>
       {/* Feature 2 Section */}
       <AnimatedSection
         className="flex flex-col md:flex-row items-center py-12 px-6 bg-gray-200"
