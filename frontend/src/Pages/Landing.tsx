@@ -1,5 +1,8 @@
 import React from "react";
 import { motion, useAnimation } from "framer-motion";
+import { TbChartInfographic } from "react-icons/tb";
+import { BsClipboardData } from "react-icons/bs";
+import { FaArrowCircleDown } from "react-icons/fa";
 import AnimatedSection from "../Components/AnimatedSection";
 
 const Landing: React.FC = () => {
@@ -34,19 +37,68 @@ const Landing: React.FC = () => {
 
       {/* Introduction Section */}
       <AnimatedSection
-        className="px-6 py-16 flex lg:flex-row flex-col justify-around items-center gap-10 lg:gap-0"
+        className=" py-16 flex lg:flex-row flex-col justify-center items-center gap-10 lg:gap-5"
         initialX={-80}
       >
-        <div className="border border-sky-500  rounded-3xl lg:w-1/3 w-[300px] p-5 text-wrap flex lg:flex-row flex-col">
-          <div>Znaczek</div>
-          <div>
-            <h1>Real-Time Graphing</h1>
-            <p>dddddddddddddddddddddd</p>
+        <div className="shadow-2xl backdrop-blur-sm  rounded-3xl xl:w-1/3 w-[300px] lg:w-[330px]  lg:h-[260px] xl:h-[200px] h-[250px] lg:py-4  flex lg:flex-row  justify-center items-center gap-3 px-3 bg-neutral-200">
+          <div className="w-1/4 justify-center items-center flex">
+            <TbChartInfographic size={50} />
+          </div>
+          <div className="flex flex-col gap-2 w-3/4 break-words py-6">
+            <h1 className="font-bold text-xl">Watch your data come to life!</h1>
+            <p className="font-serif">
+              Get live, dynamic visualizations that update in real-time, helping
+              you make swift, informed decisions.
+            </p>
           </div>
         </div>
-        <div>Feature Two Quick</div>
-        <div>Feature three quick</div>
+
+        <div className="shadow-2xl backdrop-blur-sm  rounded-3xl xl:w-1/3 w-[300px] lg:w-[330px] lg:h-[260px] xl:h-[200px] h-[250px] lg:py-4  flex lg:flex-row  justify-center items-center gap-3 px-3 bg-neutral-200">
+          <div className="w-1/4 justify-center items-center flex">
+            <BsClipboardData size={50} />
+          </div>
+          <div className="flex flex-col gap-2 w-3/4 break-words py-6">
+            <h1 className="font-bold text-xl">
+              Turn data into stunning visuals!
+            </h1>
+            <p className="font-serif">
+              Transform complex data into clear, beautiful graphics that reveal
+              patterns and insights at a glance.
+            </p>
+          </div>
+        </div>
+
+        <div className="shadow-2xl backdrop-blur-sm  rounded-3xl xl:w-1/3 w-[300px] lg:w-[330px] lg:h-[260px] xl:h-[200px] h-[250px] lg:py-4  flex lg:flex-row  justify-center items-center gap-3 px-3 bg-neutral-200">
+          <div className="w-1/4 justify-center items-center flex">
+            <TbChartInfographic size={50} />
+          </div>
+          <div className="flex flex-col gap-2 w-3/4 break-words py-6">
+            <h1 className="font-bold text-xl">
+              Uncover deeper insights from your data!
+            </h1>
+            <p className="font-serif">
+              Our advanced analytics will offer powerful tools to extract
+              valuable insights and drive smarter decisions.
+            </p>
+          </div>
+        </div>
       </AnimatedSection>
+
+      <motion.div
+        className="my-2"
+        animate={{ y: [0, 20, 0] }}
+        transition={{
+          duration: 2,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+      >
+        <FaArrowCircleDown
+          className="relative left-1/2 transform -translate-x-1/2"
+          size={80}
+        />
+      </motion.div>
 
       {/* Feature 1 Section */}
       <AnimatedSection
