@@ -4,14 +4,14 @@ import AnimatedSection from "../Components/AnimatedSection";
 
 const Landing: React.FC = () => {
   return (
-    <div className="w-full text-gray-900 ">
+    <div className="w-full h-full text-gray-900 flex flex-col gap-10">
       {/* Header Section */}
       <AnimatedSection
         className="text-left  py-20 flex flex-row justify-center items-center gap-10 flex-wrap "
         initialX={80}
       >
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 p-8">
-          <div className="w-full md:w-1/2 flex flex-col gap-12 z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="w-full md:w-1/2 flex flex-col gap-8 z-10">
             <h1 className="text-4xl md:text-6xl font-extrabold text-left leading-tight text-gray-800">
               Elevate Your Graphing Experience
             </h1>
@@ -26,19 +26,26 @@ const Landing: React.FC = () => {
             <img
               src="/Images/MainGraphPerson.png"
               alt="Features 1"
-              className="w-full h-auto rounded-lg -translate-x-10 z-0 drop-shadow-2xl"
+              className="w-full h-full rounded-lg -translate-x-10 z-0 drop-shadow-2xl"
             />
           </div>
         </div>
       </AnimatedSection>
 
       {/* Introduction Section */}
-      <AnimatedSection className="px-6 py-16" initialX={-80}>
-        <p className="text-center text-xl max-w-3xl mx-auto">
-          Our platform offers innovative tools that let you create and analyze
-          complex graphs with ease. Whether you're a beginner or an expert,
-          Grapher simplifies the process of graph creation and analysis.
-        </p>
+      <AnimatedSection
+        className="px-6 py-16 flex lg:flex-row flex-col justify-around items-center gap-10 lg:gap-0"
+        initialX={-80}
+      >
+        <div className="border border-sky-500  rounded-3xl lg:w-1/3 w-[300px] p-5 text-wrap flex lg:flex-row flex-col">
+          <div>Znaczek</div>
+          <div>
+            <h1>Real-Time Graphing</h1>
+            <p>dddddddddddddddddddddd</p>
+          </div>
+        </div>
+        <div>Feature Two Quick</div>
+        <div>Feature three quick</div>
       </AnimatedSection>
 
       {/* Feature 1 Section */}

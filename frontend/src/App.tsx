@@ -14,6 +14,9 @@ function App() {
           <Layout isLoggedIn={isLoggedIn}>
             <Routes>
               <Route path="/" element={<Landing />}></Route>
+              <Route path="/Contact" element={<Landing />}></Route>
+              <Route path="/GetStarted" element={<Landing />}></Route>
+              <Route path="/About" element={<Landing />}></Route>
             </Routes>
           </Layout>
         </Router>

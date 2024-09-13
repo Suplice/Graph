@@ -20,7 +20,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       initial={{ opacity: 0, x: initialX }}
       whileInView={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: initialX }}
-      viewport={{ once: false, amount: 0.5 }}
+      viewport={{ once: false, amount: 0.3 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       onViewportEnter={() =>
         controls.start({
