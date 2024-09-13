@@ -3,7 +3,7 @@ import { VscGraphLine } from "react-icons/vsc";
 
 const GuestNavbar: React.FC = () => {
   return (
-    <div className="flex flex-wrap items-center justify-between pb-16 pt-12 flex-col  lg:flex-row gap-4">
+    <div className="flex flex-wrap items-center justify-around pb-16 pt-12 flex-col  lg:flex-row gap-4">
       <div className="flex items-center space-x-4 ">
         <VscGraphLine size={60} />
         <p className="text-4xl font-semibold">Grapher</p>
