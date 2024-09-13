@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 interface AnimatedSectionProps {
@@ -27,13 +27,6 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
           opacity: 1,
           x: 0,
           transition: { duration: 0.5, ease: "easeInOut" },
-        })
-      }
-      onViewportLeave={() =>
-        controls.start({
-          opacity: 0,
-          x: initialX,
-          transition: { duration: 1, ease: "easeInOut" },
         })
       }
     >
