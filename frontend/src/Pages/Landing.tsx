@@ -10,7 +10,7 @@ const Landing: React.FC = () => {
     <div className="w-full h-full text-gray-900 flex flex-col gap-10">
       {/* Header Section */}
       <AnimatedSection
-        className="text-left  py-20 flex flex-row justify-center items-center gap-10 flex-wrap "
+        className="flex flex-col-reverse md:flex-row py-12 px-6 justify-center items-center gap-10 md:gap-0 "
         initialX={80}
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -35,7 +35,6 @@ const Landing: React.FC = () => {
         </div>
       </AnimatedSection>
 
-      {/* Introduction Section */}
       <AnimatedSection
         className=" py-16 flex lg:flex-row flex-col justify-center items-center gap-10 lg:gap-5"
         initialX={-80}
@@ -100,9 +99,8 @@ const Landing: React.FC = () => {
         />
       </motion.div>
 
-      {/* Feature 1 Section */}
       <AnimatedSection
-        className="flex flex-col-reverse md:flex-row py-12 px-6 justify-center reve items-center gap-10 md:gap-0  "
+        className="flex flex-col-reverse md:flex-row py-12 px-6 justify-center items-center gap-10 md:gap-0 "
         initialX={80}
       >
         <div className="md:w-1/2 mt-8 md:mt-0  flex justify-center items-center">
@@ -130,27 +128,37 @@ const Landing: React.FC = () => {
         </div>
       </AnimatedSection>
       <div className="flex justify-center items-center">
-        <button className="shadow-2xl w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 hover:bg-zinc-600 text-white transition-colors duration-500 my-32">
+        <button className="shadow-2xl w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 hover:bg-zinc-600 text-white transition-colors duration-500 my-40">
           Try it out!
         </button>
       </div>
+
       {/* Feature 2 Section */}
       <AnimatedSection
-        className="flex flex-col md:flex-row items-center py-12 px-6 bg-gray-200"
-        initialX={-80}
+        className="flex flex-col-reverse md:flex-row-reverse  px-6 justify-center  items-center gap-10 md:gap-0  "
+        initialX={80}
       >
-        <div className="md:w-1/2 md:order-2">
-          <h2 className="text-3xl font-bold">Feature 2: Data Visualization</h2>
-          <p className="mt-4 text-lg">
-            Easily visualize complex datasets and discover insights through
-            beautiful and interactive graphs.
-          </p>
+        <div className="md:w-1/2 mt-8 md:mt-0  flex justify-center items-center">
+          <div>
+            <img
+              src="/Images/PersonOnGraphFeatureOne2.png"
+              alt="Feature 1"
+              className="w-auto transform scale-150"
+            />
+          </div>
         </div>
-        <div className="md:w-1/2 md:order-1 mt-8 md:mt-0 md:pr-12">
-          <video className="rounded-lg shadow-lg" controls>
-            <source src="https://via.placeholder.com/500" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+
+        <div className="md:w-1/2 flex flex-col items-center gap-10 ">
+          <h2 className="md:text-6xl text-5xl font-extrabold  text-left">
+            Data Visualization
+          </h2>
+          <p className="text-lg md:text-xl text-left text-gray-600 w-5/6 font-serif ">
+            Our Data Visualization feature empowers you to create compelling
+            graphs and charts from a variety of data sources. Whether you're
+            importing data from Excel spreadsheets or manually entering it, our
+            tool provides seamless integration and instant, interactive
+            visualizations.
+          </p>
         </div>
       </AnimatedSection>
 
