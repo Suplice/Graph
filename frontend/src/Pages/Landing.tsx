@@ -117,26 +117,32 @@ const Landing: React.FC = () => {
           <h2 className="text-6xl font-extrabold  text-left">
             Real-Time Graphing
           </h2>
-          <p className="text-lg md:text-xl text-left text-gray-600 w-5/6 font-serif ">
-            Our Real-Time Graphing tool revolutionizes how you interact with
-            mathematical functions by allowing you to graph and manipulate
-            equations dynamically. Perfect for educators, students, and data
-            analysts alike, this feature provides instant, visual feedback as
-            you adjust parameters, giving you a deeper understanding of
-            mathematical concepts and their real-world applications.
+          <p className="text-lg md:text-xl text-left text-gray-600 w-5/6 font-serif leading-relaxed">
+            Effortlessly graph and manipulate equations dynamically, making it
+            an ideal solution for educators, students, and data analysts. This
+            feature offers instant visual feedback as you adjust parameters,
+            providing a deeper understanding of mathematical concepts and their
+            real-world applications. you adjust parameters, giving you a deeper
+            understanding of mathematical concepts and their real-world
+            applications.
           </p>
         </div>
       </AnimatedSection>
+
       <div className="flex justify-center items-center">
-        <button className="shadow-2xl w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 hover:bg-zinc-600 text-white transition-colors duration-500 my-40">
+        <motion.button
+          className="shadow-xl shadow-slate-700 w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 text-white  my-40"
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
           Try it out!
-        </button>
+        </motion.button>
       </div>
 
-      {/* Feature 2 Section */}
       <AnimatedSection
-        className="flex flex-col-reverse md:flex-row-reverse  px-6 justify-center  items-center gap-10 md:gap-0  "
-        initialX={80}
+        className="flex flex-col-reverse md:flex-row-reverse  px-6 justify-center mb-10  items-center gap-10 md:gap-0  "
+        initialX={-80}
       >
         <div className="md:w-1/2 mt-8 md:mt-0  flex justify-center items-center">
           <div>
@@ -164,15 +170,15 @@ const Landing: React.FC = () => {
 
       {/* Call to Action */}
       <AnimatedSection
-        className="text-center py-16 bg-gradient-to-b from-purple-500 to-indigo-600 text-white"
+        className="text-center py-24 my-20 border-diminished flex flex-col justify-center items-center"
         initialX={80}
       >
-        <h2 className="text-4xl font-bold">Ready to start graphing?</h2>
+        <h2 className="text-6xl font-bold">Ready to start graphing?</h2>
         <p className="text-xl mt-4">
           Sign up today and take your data visualization to the next level with
           Grapher.
         </p>
-        <button className="mt-6 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-lg">
+        <button className="mt-6 px-10 py-5 bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-2xl shadow-lg shadow-gray-700">
           Get Started
         </button>
       </AnimatedSection>

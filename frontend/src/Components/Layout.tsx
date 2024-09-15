@@ -1,5 +1,6 @@
 import React from "react";
 import GuestNavbar from "./GuestNavbar";
+import MainFooter from "./MainFooter";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn }) => {
     <div>
       {isLoggedIn ? <GuestNavbar></GuestNavbar> : <GuestNavbar></GuestNavbar>}
       <main>{children}</main>
+      <MainFooter></MainFooter>
     </div>
   );
 };
