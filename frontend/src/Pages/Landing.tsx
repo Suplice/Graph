@@ -170,7 +170,7 @@ const Landing: React.FC = () => {
 
       {/* Call to Action */}
       <AnimatedSection
-        className="text-center py-24 my-20 border-diminished flex flex-col justify-center items-center"
+        className="text-center py-24 my-20 border-diminished-t flex flex-col justify-center items-center"
         initialX={80}
       >
         <h2 className="text-6xl font-bold">Ready to start graphing?</h2>
