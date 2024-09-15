@@ -3,6 +3,7 @@ import Landing from "./Pages/Landing";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./Components/Layout";
+import About from "./Pages/About";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -16,7 +17,7 @@ function App() {
               <Route path="/" element={<Landing />}></Route>
               <Route path="/Contact" element={<Landing />}></Route>
               <Route path="/GetStarted" element={<Landing />}></Route>
-              <Route path="/About" element={<Landing />}></Route>
+              <Route path="/About" element={<About />}></Route>
             </Routes>
           </Layout>
         </Router>
