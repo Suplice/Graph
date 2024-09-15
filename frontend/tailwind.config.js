@@ -7,8 +7,20 @@ module.exports = {
   plugins: [
     function ({ addUtilities }) {
       const newUtilities = {
-        ".border-diminished": {
+        ".border-diminished-t": {
           "border-top": "1px solid transparent",
+          "border-image":
+            "linear-gradient(to right, transparent, #114156, transparent)",
+          "border-image-slice": "1",
+        },
+      };
+      addUtilities(newUtilities);
+    },
+
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".border-diminished-b": {
+          "border-bottom": "1px solid transparent",
           "border-image":
             "linear-gradient(to right, transparent, #114156, transparent)",
           "border-image-slice": "1",
