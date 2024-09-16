@@ -29,9 +29,9 @@ const About: React.FC = () => {
       </section>
 
       <section className="py-32 border-diminished-b">
-        <div className="container mx-auto">
+        <div className="container mx-auto w-3/4">
           <h2 className="text-5xl font-semibold text-center">Our Mission</h2>
-          <p className="mt-6 text-lg text-gray-600 text-center w-3/4">
+          <p className="mt-6 text-lg text-gray-600 text-center">
             Our mission is to provide cutting-edge, specialized tools designed
             to improve efficiency and precision in graphing, data visualization,
             and analytics. By offering intuitive, real-time solutions, we
