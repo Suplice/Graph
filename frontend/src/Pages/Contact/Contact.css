@@ -1,0 +1,38 @@
+.customInput {
+  border: none !important;
+  background-color: #ff0000; /* Red background */
+  width: 100%;
+  border-radius: 0.75rem; /* rounded-xl */
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.countrySelectorButton {
+  border: none !important;
+  border-radius: 0.75rem; /* Match the input field */
+}
+
+.PhoneInputContainer {
+  font-size: 20px !important;
+  width: 100%;
+  border-width: 2px;
+  border-radius: 0.75rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  padding: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.PhoneInputContainer:focus {
+  outline: 2px solid transparent !important;
+  outline-offset: 2px !important;
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity)) Im !important;
+  --tw-placeholder-opacity: 1 Im !important;
+  color: rgb(100 116 139 / var(--tw-placeholder-opacity)) Im !important;
+}
+
+.customPhoneInput:focus {
+  border-color: #94a3b8 !important; /* focus:border-slate-400 */
+}
