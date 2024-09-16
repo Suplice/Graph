@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./Components/Layout";
 import About from "./Pages/About";
+import Contact from "./Pages/Contact/Contact";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -15,7 +16,7 @@ function App() {
           <Layout isLoggedIn={isLoggedIn}>
             <Routes>
               <Route path="/" element={<Landing />}></Route>
-              <Route path="/Contact" element={<Landing />}></Route>
+              <Route path="/Contact" element={<Contact />}></Route>
               <Route path="/GetStarted" element={<Landing />}></Route>
               <Route path="/About" element={<About />}></Route>
             </Routes>
