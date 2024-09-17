@@ -16,7 +16,7 @@ const Contact: React.FC = () => {
 
   return (
     <>
-      <div className=" h-dvh flex flex-col items-center">
+      <div className=" flex flex-col items-center min-h-screen">
         <div className="text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium mt-10">
           Contact our team
         </div>
