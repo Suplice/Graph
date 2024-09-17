@@ -2,7 +2,7 @@ import React from "react";
 
 const About: React.FC = () => {
   return (
-    <>
+    <div className="min-h-screen">
       <section className=" py-16 border-diminished-b">
         <div className="container mx-auto text-center backdrop-blur-lg">
           <h1 className="text-6xl font-bold">About Us</h1>
@@ -57,7 +57,7 @@ const About: React.FC = () => {
           </button>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
