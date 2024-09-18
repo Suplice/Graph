@@ -16,9 +16,9 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn }) => {
   }, [location]);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       {isLoggedIn ? <GuestNavbar></GuestNavbar> : <GuestNavbar></GuestNavbar>}
-      <main>{children}</main>
+      <main className="flex-grow">{children}</main>
       <MainFooter></MainFooter>
     </div>
   );
