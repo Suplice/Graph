@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const About: React.FC = () => {
   return (
@@ -52,9 +53,11 @@ const About: React.FC = () => {
             Get in touch with us or explore our products to see how we can help
             you visualize your data better.
           </p>
-          <button className="mt-6 px-8 py-4 bg-blue-500 text-white hover:bg-blue-600 transition-colors font-bold rounded-md">
-            Contact Us
-          </button>
+          <NavLink to="/Contact">
+            <button className="mt-6 px-8 py-4 bg-blue-500 text-white hover:bg-blue-600 transition-colors font-bold rounded-md">
+              Contact
+            </button>
+          </NavLink>
         </div>
       </section>
     </div>
