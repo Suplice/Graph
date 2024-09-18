@@ -102,33 +102,46 @@ const Contact: React.FC = () => {
               <p className="text-lg font-serif mb-3 ">
                 Speak to our friendly team via live chat.
               </p>
-              <div className="flex flex-row w-full gap-2 mb-2">
+              <div className="flex flex-row w-full gap-2 mb-2 hover:cursor-pointer">
                 <RiWechatLine size={30} />
                 <p className="text-xl font-medium"> Start a live chat</p>
               </div>
               <div className="flex flex-row w-full gap-2 mb-2">
-                <IoIosSend size={30} />
-                <p className="text-xl font-medium">Shoot us an email</p>
+                <a
+                  href="mailto:mateuszsuplice@gmail.com"
+                  className="flex gap-2"
+                >
+                  <IoIosSend size={30} />
+                  <p className="text-xl font-medium">Shoot us an email</p>
+                </a>
               </div>
               <div className="flex flex-row w-full gap-2">
-                <PiXLogoBold size={30} />
-                <p className="text-xl font-medium">Message us on X</p>
+                <a href="https://x.com" className="flex gap-2">
+                  <PiXLogoBold size={30} />
+                  <p className="text-xl font-medium">Message us on X</p>
+                </a>
               </div>
 
               <div>
                 <h1 className="text-3xl font-bold mt-10 mb-2">Find us here</h1>
                 <p className="text-lg font-serif mb-3 ">Social media.</p>
                 <div className="flex flex-row w-full gap-2 mb-2">
-                  <BsInstagram size={30} />
-                  <p className="text-xl font-medium"> Instagram</p>
+                  <a href="https://instagram.com" className="flex w-full gap-2">
+                    <BsInstagram size={30} />
+                    <p className="text-xl font-medium"> Instagram</p>
+                  </a>
                 </div>
                 <div className="flex flex-row w-full gap-2 mb-2">
-                  <FaFacebook size={30} />
-                  <p className="text-xl font-medium"> Facebook</p>
+                  <a href="https://facebook.com" className="flex w-full gap-2">
+                    <FaFacebook size={30} />
+                    <p className="text-xl font-medium"> Facebook</p>
+                  </a>
                 </div>
                 <div className="flex flex-row w-full gap-2">
-                  <PiXLogoFill size={30} />
-                  <p className="text-xl font-medium"> Twitter</p>
+                  <a href="https://x.com" className="flex w-full gap-2">
+                    <PiXLogoFill size={30} />
+                    <p className="text-xl font-medium"> Twitter</p>
+                  </a>
                 </div>
               </div>
             </div>
