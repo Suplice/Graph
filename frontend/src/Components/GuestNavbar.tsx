@@ -30,12 +30,15 @@ const GuestNavbar: React.FC = () => {
 
   return (
     <div className="flex flex-wrap items-center  pb-16 pt-12  lg:flex-row gap-4 justify-between ">
-      <div className="flex items-center space-x-4 ">
-        <VscGraphLine className="size-12 md:size-16" />
-        <p className="text-2xl md:text-3xl lg:text-4xl font-semibold">
-          Grapher
-        </p>
-      </div>
+      <NavLink to="/">
+        <div className="flex items-center space-x-4 ">
+          <VscGraphLine className="size-12 md:size-16" />
+          <p className="text-2xl md:text-3xl lg:text-4xl font-semibold">
+            Grapher
+          </p>
+        </div>
+      </NavLink>
+
       <ul className="hidden lg:space-x-16 justify-center items-center text-2xl flex-wrap flex-col  xlg:flex-row xlg:flex lg:mx-4">
         <li className="relative">
           <NavLink
@@ -87,7 +90,9 @@ const GuestNavbar: React.FC = () => {
         </li>
       </ul>
       <div className="lg:space-x-4 text-lg font-mono lg:flex-row hidden 2xl:flex ">
-        <button className="px-4 py-2 rounded text-3xl">Sign In</button>
+        <NavLink to="/SignIn">
+          <button className="px-4 py-2 rounded text-3xl">Sign In</button>
+        </NavLink>
         <button className="bg-blue-500 text-white px-5 py-3 rounded-xl text-3xl hover:bg-blue-600 transition-colors duration-300">
           Sign Up
         </button>
