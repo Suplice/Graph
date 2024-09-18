@@ -5,13 +5,17 @@ import "./App.css";
 import Layout from "./Components/Layout";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact/Contact";
+import SignIn from "./Pages/SignIn/SignIn";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
-    <div className="background mx-auto w-full">
-      <div className=" w-9/12 mx-auto z-20  bg-[radial-gradient(circle, rgba(112,132,200,0.2) 20%, rgba(21,0,210,0) 30%) 100px 100px, radial-gradient(circle, rgba(150,180,250,0.2) 20%, rgba(21,0,210,0) 40%) 500px 300px, radial-gradient(circle, rgba(100,150,250,0.15) 0%, rgba(0,0,0,0) 50%) 200px 100px]">
+    <div
+      className="background mx-auto w-full min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url(/Images/bg.jpg)" }}
+    >
+      <div className="w-9/12 mx-auto z-20">
         <Router>
           <Layout isLoggedIn={isLoggedIn}>
             <Routes>
@@ -19,6 +23,7 @@ function App() {
               <Route path="/Contact" element={<Contact />}></Route>
               <Route path="/GetStarted" element={<Landing />}></Route>
               <Route path="/About" element={<About />}></Route>
+              <Route path="/SignIn" element={<SignIn />}></Route>
             </Routes>
           </Layout>
         </Router>
