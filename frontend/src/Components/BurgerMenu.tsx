@@ -43,7 +43,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ status }) => {
       </div>
       <div
         ref={menuRef}
-        className={`absolute w-48 border transform -translate-x-[156px] rounded-lg text-center z-40 ${status === "partial" ? "" : "pt-2"}  bg-slate-200  ${isVisible ? "absolute" : "hidden"}`}
+        className={`absolute w-48 md:w-72 border transform -translate-x-[156px] md:-translate-x-[252px] rounded-lg text-center z-40 ${status === "partial" ? "" : "pt-2"}  bg-slate-200  ${isVisible ? "absolute" : "hidden"}`}
       >
         <ul className="flex flex-col gap-2">
           <li className={`${status === "full" ? "" : "hidden"}`}>
