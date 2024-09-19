@@ -39,27 +39,30 @@ const Contact: React.FC = () => {
                 className="w-full border-2 rounded-xl border-gray-300 p-2 lg:p-3 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500"
                 placeholder="First Name"
               ></input>
+              <p className="text-sm text-red-500 pl-2 ">error</p>
             </div>
 
-            <div className="w-full md:w-1/2 px-1 lg:pr-4 xl:pr-10 md:mt-0 mt-4">
-              <label className="font-semibold pl-2">Last Name</label>
+            <div className="w-full md:w-1/2 px-1 lg:pr-4 xl:pr-10 md:mt-0 mt-2">
+              <label className="font-semibold pl-2 h-5">Last Name</label>
               <input
                 type="text"
                 className="w-full border-2 rounded-xl border-gray-300 p-2 lg:p-3 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500"
                 placeholder="Last Name"
               ></input>
+              <p className="text-sm text-red-500 pl-2 h-5">error</p>
             </div>
 
-            <div className="w-full px-1 lg:pr-4 mt-4 xl:pr-10">
+            <div className="w-full px-1 lg:pr-4 xl:pr-10">
               <label className="font-semibold pl-2">Email Addres</label>
               <input
                 type="text"
                 className="w-full border-2 rounded-xl border-gray-300 p-2 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500"
                 placeholder="you@example.com"
               ></input>
+              <p className="text-sm text-red-500 pl-2 h-5">error</p>
             </div>
 
-            <div className="w-full px-1 lg:pr-4 mt-4 xl:pr-10">
+            <div className="w-full px-1 lg:pr-4  xl:pr-10">
               <label className="font-semibold pl-2">Phone Number</label>
               <PhoneInput
                 onFocus={() => setIsFocused(true)}
@@ -73,9 +76,10 @@ const Contact: React.FC = () => {
                   buttonClassName: "countrySelectorButton",
                 }}
               />
+              <p className="text-sm text-red-500 pl-2 h-5">error</p>
             </div>
 
-            <div className="w-full px-1 lg:pr-4 mt-4 xl:pr-10 ">
+            <div className="w-full px-1 lg:pr-4  xl:pr-10 ">
               <label className="font-semibold pl-2">Message</label>
               <textarea
                 className="w-full border-2 rounded-xl border-gray-300 p-2 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500 scrollbar-none resize-none"
@@ -84,9 +88,14 @@ const Contact: React.FC = () => {
                 maxLength={200} // Set a maximum length for the message
                 onChange={(e) => setCharacterCount(e.target.value.length)}
               />
-              <p className="text-right -translate-y-1  font-normal text-sm md:text-base">
-                ({characterCount}/200)
-              </p>
+              <div className="flex flex-row">
+                <p className="text-sm text-red-500 -translate-y-1 pl-2 h-5 w-1/2">
+                  error
+                </p>
+                <p className="text-right -translate-y-1  font-normal text-sm md:text-base w-1/2">
+                  ({characterCount}/200)
+                </p>
+              </div>
             </div>
 
             <div className="w-full px-1 lg:pr-4 lg:mt-4 xl:pr-10">
