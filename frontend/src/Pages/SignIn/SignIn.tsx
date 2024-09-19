@@ -41,7 +41,7 @@ const SignIn: React.FC = () => {
             ></input>
           </div>
           <div className="mb-1 w-full h-6">
-            <p className="text-red-500 ml-1 text-sm">Incorrect Email</p>
+            <p className="text-red-500 ml-1 text-sm"></p>
           </div>
           <div
             className={`flex flex-row border rounded-lg bg-gray-200 items-center p-2  ${isPasswordFocused ? "border-slate-400" : ""}`}
@@ -75,9 +75,7 @@ const SignIn: React.FC = () => {
             )}
           </div>
           <div className="mb-3 w-full h-6 flex flex-row justify-between">
-            <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2">
-              Incorrect Password or email
-            </p>
+            <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
             <p className="w-2/5 text-left ml-auto hover:underline hover:cursor-pointer">
               Forgot Password?
             </p>
