@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import { PhoneInput } from "react-international-phone";
 
 const ContactMenu: React.FC = () => {

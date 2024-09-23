@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import { TbChartInfographic } from "react-icons/tb";
 import { BsClipboardData } from "react-icons/bs";
 import { FaArrowCircleDown } from "react-icons/fa";
