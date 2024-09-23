@@ -74,16 +74,22 @@ const SignIn: React.FC = () => {
               />
             )}
           </div>
-          <div className="mb-3 w-full h-6 flex flex-row justify-between">
-            <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
-            <p className="w-2/5 text-left ml-auto hover:underline hover:cursor-pointer">
-              Forgot Password?
-            </p>
+          <div className=" w-full flex flex-col mb-3 ">
+            <div className="w-full h-4">
+              <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
+            </div>
+            <div className="flex flex-row items-center mt-1">
+              <input type="checkbox" className="ml-1"></input>
+              <p className="ml-1">Remember me</p>
+              <p className="w-2/5 text-left ml-auto hover:underline hover:cursor-pointer">
+                Forgot Password?
+              </p>
+            </div>
           </div>
 
-          <div className="flex justify-center mt-3">
+          <div className="flex justify-center ">
             <button className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xl font-sans transition-colors duration-300 w-full">
-              Get Started
+              Sign In
             </button>
           </div>
           <div className="flex items-center mt-7">
