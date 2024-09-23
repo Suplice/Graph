@@ -4,6 +4,7 @@ import { TbChartInfographic } from "react-icons/tb";
 import { BsClipboardData } from "react-icons/bs";
 import { FaArrowCircleDown } from "react-icons/fa";
 import AnimatedSection from "../Components/AnimatedSection";
+import { NavLink } from "react-router-dom";
 
 const Landing: React.FC = () => {
   return (
@@ -130,14 +131,16 @@ const Landing: React.FC = () => {
       </AnimatedSection>
 
       <div className="flex justify-center items-center">
-        <motion.button
-          className="shadow-xl shadow-slate-700 w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 text-white  my-40"
-          initial={{ scale: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          Try it out!
-        </motion.button>
+        <NavLink to="/SignIn">
+          <motion.button
+            className="shadow-xl shadow-slate-700 w-72 h-20 rounded-3xl text-2xl font-bold bg-zinc-500 text-white  my-40"
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            Try it out!
+          </motion.button>
+        </NavLink>
       </div>
 
       <AnimatedSection
@@ -178,9 +181,11 @@ const Landing: React.FC = () => {
           Sign up today and take your data visualization to the next level with
           Grapher.
         </p>
-        <button className="mt-6 px-10 py-5 bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-2xl shadow-lg shadow-gray-700">
-          Get Started
-        </button>
+        <NavLink to="/SignIn">
+          <button className="mt-6 px-10 py-5 bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-2xl shadow-lg shadow-gray-700">
+            Get Started
+          </button>
+        </NavLink>
       </AnimatedSection>
     </div>
   );
