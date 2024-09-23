@@ -78,7 +78,7 @@ const SignUp: React.FC = () => {
           <div
             className={`flex flex-row border rounded-lg mt-2 bg-gray-200 items-center p-2  ${isEmailFocused ? "border-slate-400" : ""}`}
           >
-            <IoIosLock size={23} />
+            <MdEmail size={23} />
             <input
               className="outline-none bg-transparent mx-2 w-full  focus:placeholder-slate-500 font-serif "
               placeholder="Email"
