@@ -93,9 +93,11 @@ const GuestNavbar: React.FC = () => {
         <NavLink to="/SignIn">
           <button className="px-4 py-2 rounded text-3xl">Sign In</button>
         </NavLink>
-        <button className="bg-blue-500 text-white px-5 py-3 rounded-xl text-3xl hover:bg-blue-600 transition-colors duration-300">
-          Sign Up
-        </button>
+        <NavLink to="/SignUp">
+          <button className="bg-blue-500 text-white px-5 py-3 rounded-xl text-3xl hover:bg-blue-600 transition-colors duration-300">
+            Sign Up
+          </button>
+        </NavLink>
       </div>
 
       <BurgerMenu status={status} />
