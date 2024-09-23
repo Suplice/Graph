@@ -100,7 +100,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ status }) => {
             className={`${status === "partial" || status === "full" ? "" : "hidden"} `}
           >
             <NavLink
-              to="/Register"
+              to="/SignUp"
               className="hover:bg-blue-600 block font-mono text-white bg-blue-500 rounded-md p-1 transition-colors"
             >
               Sign Up
