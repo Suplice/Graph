@@ -89,9 +89,7 @@ const Contact: React.FC = () => {
                 onChange={(e) => setCharacterCount(e.target.value.length)}
               />
               <div className="flex flex-row">
-                <p className="text-sm text-red-500 -translate-y-1 pl-2 h-5 w-1/2">
-                  error
-                </p>
+                <p className="text-sm text-red-500 -translate-y-1 pl-2 h-5 w-1/2"></p>
                 <p className="text-right -translate-y-1  font-normal text-sm md:text-base w-1/2">
                   ({characterCount}/200)
                 </p>
@@ -105,7 +103,7 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
-          <div className="md:w-2/5 w-full">
+          <div className="md:w-2/5 w-full ">
             <div className="w-full flex flex-col">
               <h1 className="text-3xl font-bold mb-2">Chat with us</h1>
               <p className="text-lg font-serif mb-3 ">
