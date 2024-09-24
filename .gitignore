@@ -39,3 +39,5 @@ backend/.prettierignore
 backend/.prettierrc
 backend/dist/index.js
 TODO
+backend/.firebaserc
+backend/firebase.json
