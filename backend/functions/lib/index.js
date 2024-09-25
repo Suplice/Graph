@@ -30,9 +30,18 @@ const functions = __importStar(require("firebase-functions"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const admin = __importStar(require("firebase-admin"));
+const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 admin.initializeApp();
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({ origin: true }));
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express_1.default.json());
-exports.api = functions.https.onRequest(app);
+app.use("/auth", authRoutes_1.default);
+app.get("/", (req, res) => {
+    res.send("Hello from Express!");
+});
+exports.api = functions.region("europe-central2").https.onRequest(app);
 //# sourceMappingURL=index.js.map
