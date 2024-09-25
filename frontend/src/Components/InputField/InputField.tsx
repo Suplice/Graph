@@ -7,6 +7,7 @@ interface InputFieldProps {
   value: string;
   type: string;
   icon: React.ReactNode;
+  name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -16,6 +17,7 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   type,
   icon,
+  name,
   onChange,
 }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -33,6 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onBlur={() => {
           setFocus(false);
         }}
+        name={name}
         type={type === "password" && isPasswordShown ? "text" : type}
         value={value}
         onChange={onChange}

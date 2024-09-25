@@ -28,12 +28,24 @@ const SignUp: React.FC = () => {
     e.preventDefault();
 
     try {
-      await fetch(process.env.REACT_APP_API_URL + "/register", {
-        method: "POST",
-        body: JSON.stringify(registerData),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data));
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(registerData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to register");
+      }
+
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.error("Error fetching items:", error);
     }
@@ -63,6 +75,7 @@ const SignUp: React.FC = () => {
                 value={registerData.firstName}
                 onChange={handleInputChange}
                 type="text"
+                name="firstName"
                 icon={<FaUser size={20} />}
               ></InputField>
 
@@ -78,6 +91,7 @@ const SignUp: React.FC = () => {
                 value={registerData.lastName}
                 onChange={handleInputChange}
                 type="text"
+                name="lastName"
                 icon={<FaIdBadge size={20} />}
               ></InputField>
 
@@ -93,6 +107,7 @@ const SignUp: React.FC = () => {
             type="email"
             value={registerData.email}
             onChange={handleInputChange}
+            name="email"
             icon={<MdEmail size={23} />}
           />
 
@@ -106,6 +121,7 @@ const SignUp: React.FC = () => {
             type="password"
             value={registerData.password}
             onChange={handleInputChange}
+            name="password"
             icon={<IoIosLock size={23} />}
           />
 
