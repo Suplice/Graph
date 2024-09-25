@@ -41,3 +41,4 @@ backend/dist/index.js
 TODO
 backend/.firebaserc
 backend/firebase.json
+backend/functions/src/Config/serviceAccountKey.json
