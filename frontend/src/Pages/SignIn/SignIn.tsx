@@ -30,7 +30,7 @@ const SignIn: React.FC = () => {
           >
             <MdEmail size={25} />
             <input
-              className="outline-none bg-transparent ml-2 w-full focus:placeholder-slate-500 text-gray-700  font-serif "
+              className="outline-none bg-transparent mx-2 w-full focus:placeholder-slate-500 text-gray-700  font-serif "
               placeholder="Email"
               onFocus={() => {
                 setIsEmailFocused(true);
