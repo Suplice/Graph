@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { TbChartInfographic } from "react-icons/tb";
 import { BsClipboardData } from "react-icons/bs";
 import { FaArrowCircleDown } from "react-icons/fa";
-import AnimatedSection from "../../Components/AnimatedSection";
+import AnimatedSection from "../../Components/Animations/AnimatedSection";
 import { NavLink } from "react-router-dom";
 
 const Landing: React.FC = () => {

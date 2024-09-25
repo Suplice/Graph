@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Landing from "./Pages/Landing/Landing";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import Layout from "./Components/Layout";
+import Layout from "./Components/Layout/Layout";
 import About from "./Pages/About/About";
 import Contact from "./Pages/Contact/Contact";
 import SignIn from "./Pages/SignIn/SignIn";

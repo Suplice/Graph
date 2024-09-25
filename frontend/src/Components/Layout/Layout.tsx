@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import GuestNavbar from "./GuestNavbar";
+import GuestNavbar from "../Navigation/GuestNavbar";
 import MainFooter from "./MainFooter";
 import { useLocation } from "react-router-dom";
 

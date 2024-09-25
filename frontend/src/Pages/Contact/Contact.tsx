@@ -7,7 +7,7 @@ import { BsInstagram } from "react-icons/bs";
 import { FaFacebook } from "react-icons/fa";
 import "react-international-phone/style.css";
 import "./Contact.css";
-import ContactMenu from "../../Components/ContactMenu";
+import ContactMenu from "../../Components/ContactPage/ContactMenu";
 
 const Contact: React.FC = () => {
   return (
