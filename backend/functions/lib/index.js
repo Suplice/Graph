@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const functions = __importStar(require("firebase-functions"));
+const v2_1 = require("firebase-functions/v2");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const admin = __importStar(require("firebase-admin"));
@@ -43,5 +43,5 @@ app.use("/auth", authRoutes_1.default);
 app.get("/", (req, res) => {
     res.send("Hello from Express!");
 });
-exports.api = functions.region("europe-central2").https.onRequest(app);
+exports.api = v2_1.https.onRequest(app);
 //# sourceMappingURL=index.js.map
