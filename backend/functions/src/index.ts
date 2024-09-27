@@ -1,4 +1,4 @@
-import * as functions from "firebase-functions";
+import { https } from "firebase-functions/v2";
 import express from "express";
 import cors from "cors";
 import * as admin from "firebase-admin";
@@ -24,4 +24,4 @@ app.get("/", (req, res) => {
   res.send("Hello from Express!");
 });
 
-exports.api = functions.region("europe-central2").https.onRequest(app);
+exports.api = https.onRequest(app);
