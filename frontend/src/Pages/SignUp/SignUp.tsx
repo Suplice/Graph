@@ -41,7 +41,11 @@ const SignUp: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to register");
+        // Log the whole error object to see the structure
+        console.error("Error response:", errorData);
+        throw new Error(
+          errorData.errors.map((error: any) => error.msg).join(", ")
+        ); // Join messages into a single string
       }
 
       const data = await response.json();
