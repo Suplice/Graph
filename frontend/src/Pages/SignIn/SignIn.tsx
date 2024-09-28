@@ -4,11 +4,49 @@ import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { LoginDTO } from "../../Dto/loginDTO";
+import InputField from "../../Components/InputField/InputField";
 
 const SignIn: React.FC = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isEmailFocused, setIsEmailFocused] = useState<boolean>(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
+  const [loginData, setLoginData] = useState<LoginDTO>({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginData({
+      ...loginData,
+      [name]: value,
+    });
+  };
+
+  const handleBaseLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw errorData;
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center my-14">
@@ -25,55 +63,27 @@ const SignIn: React.FC = () => {
         </div>
 
         <div className="flex flex-col justify-center w-4/5">
-          <div
-            className={`flex flex-row border rounded-lg bg-gray-200 items-center p-2 mt-4 ${isEmailFocused ? "border-slate-400" : ""}`}
-          >
-            <MdEmail size={25} />
-            <input
-              className="outline-none bg-transparent mx-2 w-full focus:placeholder-slate-500 text-gray-700  font-serif "
-              placeholder="Email"
-              onFocus={() => {
-                setIsEmailFocused(true);
-              }}
-              onBlur={() => {
-                setIsEmailFocused(false);
-              }}
-            ></input>
-          </div>
+          <InputField
+            className="flex flex-row border rounded-lg mt-2 bg-gray-200 items-center pl-2 "
+            placeholder="Email"
+            type="email"
+            value={loginData.email}
+            onChange={handleInputChange}
+            name="email"
+            icon={<MdEmail size={23} />}
+          />
           <div className="mb-1 w-full h-6">
             <p className="text-red-500 ml-1 text-sm"></p>
           </div>
-          <div
-            className={`flex flex-row border rounded-lg bg-gray-200 items-center p-2  ${isPasswordFocused ? "border-slate-400" : ""}`}
-          >
-            <IoIosLock size={25} />
-            <input
-              className="outline-none bg-transparent mx-2 w-full  focus:placeholder-slate-500 font-serif "
-              placeholder="Password"
-              type={showPassword ? "text" : "password"}
-              onFocus={() => {
-                setIsPasswordFocused(true);
-              }}
-              onBlur={() => {
-                setIsPasswordFocused(false);
-              }}
-            ></input>
-            {showPassword ? (
-              <FaEyeSlash
-                size={25}
-                onClick={() => {
-                  setShowPassword(!showPassword);
-                }}
-              />
-            ) : (
-              <FaEye
-                size={25}
-                onClick={() => {
-                  setShowPassword(!showPassword);
-                }}
-              />
-            )}
-          </div>
+          <InputField
+            className="flex flex-row border rounded-lg mt-2 bg-gray-200 items-center px-2 "
+            placeholder="Password"
+            type="password"
+            value={loginData.password}
+            onChange={handleInputChange}
+            name="password"
+            icon={<IoIosLock size={23} />}
+          />
           <div className=" w-full flex flex-col mb-3 ">
             <div className="w-full h-4">
               <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
@@ -88,7 +98,10 @@ const SignIn: React.FC = () => {
           </div>
 
           <div className="flex justify-center ">
-            <button className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xl font-sans transition-colors duration-300 w-full">
+            <button
+              className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xl font-sans transition-colors duration-300 w-full"
+              onClick={handleBaseLogin}
+            >
               Sign In
             </button>
           </div>
