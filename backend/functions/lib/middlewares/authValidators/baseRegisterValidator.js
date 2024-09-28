@@ -44,4 +44,4 @@ const validateRegistration = (req, res, next) => {
     next();
 };
 exports.validateRegistration = validateRegistration;
-//# sourceMappingURL=registerValidator.js.map
+//# sourceMappingURL=baseRegisterValidator.js.map
