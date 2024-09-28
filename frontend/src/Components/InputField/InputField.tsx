@@ -35,6 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onBlur={() => {
           setFocus(false);
         }}
+        autoComplete="off"
         name={name}
         type={type === "password" && isPasswordShown ? "text" : type}
         value={value}
