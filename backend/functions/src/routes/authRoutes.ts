@@ -1,17 +1,9 @@
 import express from "express";
 import authController from "../controllers/authController";
-import {
-  handleValidationErrors,
-  registerValidator,
-} from "../middlewares/authValidators/registerValidator";
+import { validateRegistration } from "../middlewares/authValidators/baseRegisterValidator";
 
 const router = express.Router();
 
-router.post(
-  "/register",
-  registerValidator,
-  handleValidationErrors,
-  authController.registerUser
-);
+router.post("/register", validateRegistration, authController.registerUser);
 
 export default router;
