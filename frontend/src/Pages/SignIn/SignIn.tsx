@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
 import { LoginDTO } from "../../Dto/loginDTO";
 import InputField from "../../Components/InputField/InputField";
 
