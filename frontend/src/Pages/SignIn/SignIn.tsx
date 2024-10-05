@@ -8,7 +8,7 @@ import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
 import { CircularProgress } from "@mui/material";
 
 const SignIn: React.FC = () => {
-  const [isSignignIn, setIsSigningIn] = useState<boolean>(false);
+  const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
 
   const [loginData, setLoginData] = useState<LoginDTO>({
     email: "",
@@ -105,11 +105,11 @@ const SignIn: React.FC = () => {
 
           <div className="flex justify-center items-center">
             <button
-              disabled={isSignignIn}
+              disabled={isSigningIn}
               className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg h-11 text-xl font-sans transition-colors duration-300 w-full flex justify-center items-center"
               onClick={handleBaseLogin}
             >
-              {isSignignIn ? (
+              {isSigningIn ? (
                 <CircularProgress size={30} color="inherit"></CircularProgress>
               ) : (
                 "Sign in"
