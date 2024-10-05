@@ -4,8 +4,12 @@ import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
 import { LoginDTO } from "../../Dto/loginDTO";
 import InputField from "../../Components/InputField/InputField";
+import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
+import { CircularProgress } from "@mui/material";
 
 const SignIn: React.FC = () => {
+  const [isSignignIn, setIsSigningIn] = useState<boolean>(false);
+
   const [loginData, setLoginData] = useState<LoginDTO>({
     email: "",
     password: "",
@@ -21,6 +25,8 @@ const SignIn: React.FC = () => {
 
   const handleBaseLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsSigningIn(true);
 
     try {
       const response = await fetch(
@@ -43,6 +49,8 @@ const SignIn: React.FC = () => {
       console.log(data);
     } catch (error) {
       console.error("Error fetching items:", error);
+    } finally {
+      setIsSigningIn(false);
     }
   };
 
@@ -95,12 +103,17 @@ const SignIn: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-center ">
+          <div className="flex justify-center items-center">
             <button
-              className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xl font-sans transition-colors duration-300 w-full"
+              disabled={isSignignIn}
+              className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg h-11 text-xl font-sans transition-colors duration-300 w-full flex justify-center items-center"
               onClick={handleBaseLogin}
             >
-              Sign In
+              {isSignignIn ? (
+                <CircularProgress size={30} color="inherit"></CircularProgress>
+              ) : (
+                "Sign in"
+              )}
             </button>
           </div>
           <div className="flex items-center mt-7">
@@ -108,21 +121,7 @@ const SignIn: React.FC = () => {
             <span className="px-4 text-sm text-gray-500">Or Sign with</span>
             <div className="flex-grow border-dotted border-black border"></div>
           </div>
-          <div className="flex flex-row text-center gap-4 mt-7">
-            <div className="flex-grow bg-slate-200 rounded-md p-2 flex justify-center shadow-md shadow-gray-500 hover:bg-slate-300 transition-colors hover:cursor-pointer">
-              <img src="/Images/google.png" alt="Google" className="w-6"></img>
-            </div>
-            <div className="flex-grow bg-slate-200 rounded-md p-2 flex justify-center shadow-md shadow-gray-500 hover:bg-slate-300 transition-colors hover:cursor-pointer">
-              <img
-                src="/Images/facebook.png"
-                alt="facebook"
-                className="w-6"
-              ></img>
-            </div>
-            <div className="flex-grow bg-slate-200 rounded-md p-2 flex justify-center shadow-md shadow-gray-500 hover:bg-slate-300 transition-colors hover:cursor-pointer">
-              <img src="/Images/github.png" alt="github" className="w-6"></img>
-            </div>
-          </div>
+          <SocialAuthButtons />
         </div>
       </div>
     </div>
