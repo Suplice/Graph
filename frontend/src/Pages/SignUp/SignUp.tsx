@@ -7,8 +7,11 @@ import { FaIdBadge } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
 import { RegisterDTO } from "../../Dto/RegisterDTO";
+import { CircularProgress } from "@mui/material";
 
 const SignUp: React.FC = () => {
+  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
+
   const [registerData, setRegisterData] = useState<RegisterDTO>({
     firstName: "",
     lastName: "",
@@ -26,6 +29,8 @@ const SignUp: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsSigningUp(true);
 
     try {
       const response = await fetch(
@@ -48,6 +53,8 @@ const SignUp: React.FC = () => {
       console.log(data);
     } catch (error) {
       console.error("Error fetching items:", error);
+    } finally {
+      setIsSigningUp(false);
     }
   };
 
@@ -129,12 +136,17 @@ const SignUp: React.FC = () => {
             <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
           </div>
 
-          <div className="flex justify-center mt-5 ">
+          <div className="flex justify-center mt-2 ">
             <button
-              className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xl font-sans transition-colors duration-300 w-full"
+              disabled={isSigningUp}
+              className="bg-slate-900 hover:bg-slate-800 text-white py-2 h-11 rounded-lg text-xl font-sans transition-colors duration-300 w-full"
               onClick={handleRegister}
             >
-              Sign In
+              {isSigningUp ? (
+                <CircularProgress size={30} color="inherit" />
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </div>
           <div className="flex items-center mt-7">
