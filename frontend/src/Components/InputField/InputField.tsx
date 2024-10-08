@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import InputValidationInfo from "../InputValidationInfo/InputValidationInfo";
 
 interface InputFieldProps {
+  direction: "left" | "right";
   className: string;
   placeholder: string;
   value: string;
@@ -12,6 +14,7 @@ interface InputFieldProps {
 }
 
 const InputField: React.FC<InputFieldProps> = ({
+  direction,
   className,
   placeholder,
   value,
@@ -24,44 +27,47 @@ const InputField: React.FC<InputFieldProps> = ({
   const [isFocused, setFocus] = useState(false);
 
   return (
-    <div className={className + `${isFocused ? "border-slate-400" : ""}`}>
-      {icon}
-      <input
-        className="outline-none bg-transparent  w-full p-2  focus:placeholder-slate-500 font-serif text-gray-700 "
-        placeholder={placeholder}
-        onFocus={() => {
-          setFocus(true);
-        }}
-        onBlur={() => {
-          setFocus(false);
-        }}
-        autoComplete="off"
-        name={name}
-        type={type === "password" && isPasswordShown ? "text" : type}
-        value={value}
-        onChange={onChange}
-      ></input>
-      {type === "password" ? (
-        <>
-          {isPasswordShown ? (
-            <FaEyeSlash
-              size={25}
-              onClick={() => {
-                setIsPasswordShown(!isPasswordShown);
-              }}
-            />
-          ) : (
-            <FaEye
-              size={25}
-              onClick={() => {
-                setIsPasswordShown(!isPasswordShown);
-              }}
-            />
-          )}
-        </>
-      ) : (
-        ""
-      )}
+    <div className="relative">
+      <div className={className + `${isFocused ? "border-slate-400" : ""}`}>
+        {icon}
+        <input
+          className="outline-none bg-transparent  w-full p-2  focus:placeholder-slate-500 font-serif text-gray-700 "
+          placeholder={placeholder}
+          onFocus={() => {
+            setFocus(true);
+          }}
+          onBlur={() => {
+            setFocus(false);
+          }}
+          autoComplete="off"
+          name={name}
+          type={type === "password" && isPasswordShown ? "text" : type}
+          value={value}
+          onChange={onChange}
+        ></input>
+        {type === "password" ? (
+          <>
+            {isPasswordShown ? (
+              <FaEyeSlash
+                size={25}
+                onClick={() => {
+                  setIsPasswordShown(!isPasswordShown);
+                }}
+              />
+            ) : (
+              <FaEye
+                size={25}
+                onClick={() => {
+                  setIsPasswordShown(!isPasswordShown);
+                }}
+              />
+            )}
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+      {isFocused && <InputValidationInfo direction={direction} />}
     </div>
   );
 };

@@ -74,10 +74,11 @@ const SignUp: React.FC = () => {
         </div>
 
         <div className="flex flex-col justify-center w-4/5 ">
-          <div className="flex md:flex-row w-full md:gap-5 flex-col mb-1 ">
+          <div className="flex md:flex-row w-full md:gap-5 flex-col  ">
             <div className="flex flex-col md:w-1/2 w-full">
               <InputField
-                className="flex flex-row border rounded-lg w-full bg-gray-200 pl-2 items-center mt-4 "
+                direction="left"
+                className="flex flex-row border rounded-lg w-full bg-gray-200 pl-2 items-center mt-6 "
                 placeholder="First Name"
                 value={registerData.firstName}
                 onChange={handleInputChange}
@@ -85,15 +86,12 @@ const SignUp: React.FC = () => {
                 name="firstName"
                 icon={<FaUser size={20} />}
               ></InputField>
-
-              <div className="mb-2 md:mb-1 w-full h-3">
-                <p className="text-red-500 ml-1 text-sm text-wrap "></p>
-              </div>
             </div>
 
-            <div className="flex flex-col md:w-1/2 w-full md:mt-0 mt-2">
+            <div className="flex flex-col md:w-1/2 w-full  ">
               <InputField
-                className="flex flex-row border rounded-lg w-full bg-gray-200 pl-2 items-center mt-4 "
+                direction="right"
+                className="flex flex-row border rounded-lg w-full bg-gray-200 pl-2 items-center mt-6 "
                 placeholder="Last Name"
                 value={registerData.lastName}
                 onChange={handleInputChange}
@@ -101,29 +99,25 @@ const SignUp: React.FC = () => {
                 name="lastName"
                 icon={<FaIdBadge size={20} />}
               ></InputField>
-
-              <div className="mb-1 w-full h-3">
-                <p className="text-red-500 ml-1 text-sm text-wrap "></p>
-              </div>
             </div>
           </div>
 
-          <InputField
-            className="flex flex-row border rounded-lg mt-2 bg-gray-200 items-center pl-2 "
-            placeholder="Email"
-            type="email"
-            value={registerData.email}
-            onChange={handleInputChange}
-            name="email"
-            icon={<MdEmail size={23} />}
-          />
-
-          <div className="mb-2 w-full h-3">
-            <p className="text-red-500 ml-1 text-sm text-wrap "></p>
+          <div>
+            <InputField
+              direction="right"
+              className="flex flex-row border rounded-lg mt-6 bg-gray-200 items-center pl-2 "
+              placeholder="Email"
+              type="email"
+              value={registerData.email}
+              onChange={handleInputChange}
+              name="email"
+              icon={<MdEmail size={23} />}
+            />
           </div>
 
           <InputField
-            className="flex flex-row border rounded-lg mt-2 bg-gray-200 items-center px-2 "
+            direction="right"
+            className="flex flex-row border rounded-lg mt-6 bg-gray-200 items-center px-2 "
             placeholder="Password"
             type="password"
             value={registerData.password}
@@ -132,11 +126,7 @@ const SignUp: React.FC = () => {
             icon={<IoIosLock size={23} />}
           />
 
-          <div className=" w-full flex flex-col mb-3 h-3 ">
-            <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
-          </div>
-
-          <div className="flex justify-center mt-2 ">
+          <div className="flex justify-center mt-6 ">
             <button
               disabled={isSigningUp}
               className="bg-slate-900 hover:bg-slate-800 text-white py-2 h-11 rounded-lg text-xl font-sans transition-colors duration-300 w-full"

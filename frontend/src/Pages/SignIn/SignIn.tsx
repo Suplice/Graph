@@ -70,6 +70,7 @@ const SignIn: React.FC = () => {
 
         <div className="flex flex-col justify-center w-4/5">
           <InputField
+            direction="right"
             className="flex flex-row border rounded-lg mt-2 bg-gray-200 items-center pl-2 "
             placeholder="Email"
             type="email"
@@ -82,6 +83,7 @@ const SignIn: React.FC = () => {
             <p className="text-red-500 ml-1 text-sm"></p>
           </div>
           <InputField
+            direction="right"
             className="flex flex-row border rounded-lg mt-2 bg-gray-200 items-center px-2 "
             placeholder="Password"
             type="password"
