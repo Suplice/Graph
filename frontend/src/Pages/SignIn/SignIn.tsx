@@ -78,6 +78,7 @@ const SignIn: React.FC = () => {
             onChange={handleInputChange}
             name="email"
             icon={<MdEmail size={23} />}
+            validationFunctions={[]}
           />
           <div className="mb-1 w-full h-6">
             <p className="text-red-500 ml-1 text-sm"></p>
@@ -91,6 +92,7 @@ const SignIn: React.FC = () => {
             onChange={handleInputChange}
             name="password"
             icon={<IoIosLock size={23} />}
+            validationFunctions={[]}
           />
           <div className=" w-full flex flex-col mb-3 ">
             <div className="w-full h-4">
