@@ -8,14 +8,8 @@ import { FaUser } from "react-icons/fa";
 import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
 import { RegisterDTO } from "../../Dto/RegisterDTO";
 import { CircularProgress } from "@mui/material";
-import {
-  validatePasswordIsReq,
-  validatePasswordIsMinLength,
-  validatePasswordHasUppercase,
-  validatePasswordHasNumber,
-  validatePasswordHasSpecialChar,
-} from "../../utils/Validators/passwordValidators";
 
+import * as Validators from "../../utils/imports/validationImports";
 const SignUp: React.FC = () => {
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
@@ -92,7 +86,10 @@ const SignUp: React.FC = () => {
                 type="text"
                 name="firstName"
                 icon={<FaUser size={20} />}
-                validationFunctions={[]}
+                validationFunctions={[
+                  Validators.validateFirstNameIsReq,
+                  Validators.validateFirstNameIsMinLength,
+                ]}
               ></InputField>
             </div>
 
@@ -106,7 +103,10 @@ const SignUp: React.FC = () => {
                 type="text"
                 name="lastName"
                 icon={<FaIdBadge size={20} />}
-                validationFunctions={[]}
+                validationFunctions={[
+                  Validators.validateLastNameIsReq,
+                  Validators.validateLastNameIsMinLength,
+                ]}
               ></InputField>
             </div>
           </div>
@@ -121,7 +121,10 @@ const SignUp: React.FC = () => {
               onChange={handleInputChange}
               name="email"
               icon={<MdEmail size={23} />}
-              validationFunctions={[]}
+              validationFunctions={[
+                Validators.validateEmailIsReq,
+                Validators.validateEmailIsValid,
+              ]}
             />
           </div>
 
@@ -135,11 +138,11 @@ const SignUp: React.FC = () => {
             name="password"
             icon={<IoIosLock size={23} />}
             validationFunctions={[
-              validatePasswordIsReq,
-              validatePasswordIsMinLength,
-              validatePasswordHasUppercase,
-              validatePasswordHasNumber,
-              validatePasswordHasSpecialChar,
+              Validators.validatePasswordIsReq,
+              Validators.validatePasswordIsMinLength,
+              Validators.validatePasswordHasUppercase,
+              Validators.validatePasswordHasNumber,
+              Validators.validatePasswordHasSpecialChar,
             ]}
           />
 
