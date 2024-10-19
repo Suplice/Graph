@@ -87,7 +87,7 @@ const InputField: React.FC<InputFieldProps> = ({
           ""
         )}
       </div>
-      {isFocused && (
+      {isFocused && validationResults.length > 0 && (
         <InputValidationInfo validationResults={validationResults} />
       )}
     </div>
