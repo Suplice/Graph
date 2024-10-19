@@ -11,18 +11,21 @@ const InputValidationInfo: React.FC<InputValidationInfoProps> = ({
 }) => {
   return (
     <div
-      className={`absolute border p-2 text-sm bg-white shadow-md rounded-md z-10 w-fit`}
+      className="absolute w-[360px] px-4 py-2 text-sm shadow-lg z-10 bg-gradient-to-r from-blue-100 via-stone-300 to-blue-100 rounded-3xl 
+  transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:from-blue-200 hover:to-blue-200 mt-1 "
     >
       {validationResults.map((result, index) => (
-        <div key={index} className="flex items-center w-fit h-8">
+        <div key={index} className="flex items-center h-8">
           {result.isValid ? (
-            <FcCheckmark className="lg:min-w-6 lg:min-h-6 min-h-3 min-w-3" />
+            <FcCheckmark className="min-w-5 min-h-5" />
           ) : (
-            <FcHighPriority className="lg:min-w-6 lg:min-h-6 min-h-3 min-w-3" />
+            <FcHighPriority className="min-w-5 min-h-5" />
           )}
           <p
             className={
-              result.isValid ? "text-green-500 ml-2" : "text-red-500 ml-2"
+              result.isValid
+                ? "text-green-900 ml-2 font-semibold leading-tight"
+                : "ml-2 font-semibold leading-tight"
             }
           >
             {result.message}
