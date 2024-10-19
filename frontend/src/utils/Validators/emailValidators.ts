@@ -1,11 +1,9 @@
-export const validateEmailIsReq = (email: string): string | undefined => {
-  if (!email) {
-    return "Email is required";
-  }
-};
+export const validateEmailIsReq = (email: string) => ({
+  message: "Email is required",
+  isValid: !email ? false : true,
+});
 
-export const validateEmailIsEmail = (email: string): string | undefined => {
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
-    return "Email must be a valid email";
-  }
-};
+export const validateEmailIsValid = (email: string) => ({
+  message: "Email must be valid",
+  isValid: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? true : false,
+});
