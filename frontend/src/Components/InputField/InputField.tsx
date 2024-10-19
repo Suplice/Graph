@@ -11,6 +11,10 @@ interface InputFieldProps {
   icon: React.ReactNode;
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  validationFunctions: ((value: string) => {
+    message: string;
+    isValid: boolean;
+  })[];
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -22,9 +26,25 @@ const InputField: React.FC<InputFieldProps> = ({
   icon,
   name,
   onChange,
+  validationFunctions,
 }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isFocused, setFocus] = useState(false);
+  const [validationResults, setValidationResults] = useState<
+    {
+      message: string;
+      isValid: boolean;
+    }[]
+  >([]);
+
+  const validateInput = (inputValue: string) => {
+    const results = validationFunctions.map((func) => func(inputValue));
+    setValidationResults(results);
+  };
+
+  React.useEffect(() => {
+    validateInput(value);
+  }, [value]);
 
   return (
     <div className="relative">
@@ -67,7 +87,9 @@ const InputField: React.FC<InputFieldProps> = ({
           ""
         )}
       </div>
-      {isFocused && <InputValidationInfo direction={direction} />}
+      {isFocused && (
+        <InputValidationInfo validationResults={validationResults} />
+      )}
     </div>
   );
 };
