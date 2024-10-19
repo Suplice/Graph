@@ -8,6 +8,13 @@ import { FaUser } from "react-icons/fa";
 import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
 import { RegisterDTO } from "../../Dto/RegisterDTO";
 import { CircularProgress } from "@mui/material";
+import {
+  validatePasswordIsReq,
+  validatePasswordIsMinLength,
+  validatePasswordHasUppercase,
+  validatePasswordHasNumber,
+  validatePasswordHasSpecialChar,
+} from "../../utils/Validators/passwordValidators";
 
 const SignUp: React.FC = () => {
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
@@ -85,6 +92,7 @@ const SignUp: React.FC = () => {
                 type="text"
                 name="firstName"
                 icon={<FaUser size={20} />}
+                validationFunctions={[]}
               ></InputField>
             </div>
 
@@ -98,6 +106,7 @@ const SignUp: React.FC = () => {
                 type="text"
                 name="lastName"
                 icon={<FaIdBadge size={20} />}
+                validationFunctions={[]}
               ></InputField>
             </div>
           </div>
@@ -112,6 +121,7 @@ const SignUp: React.FC = () => {
               onChange={handleInputChange}
               name="email"
               icon={<MdEmail size={23} />}
+              validationFunctions={[]}
             />
           </div>
 
@@ -124,6 +134,13 @@ const SignUp: React.FC = () => {
             onChange={handleInputChange}
             name="password"
             icon={<IoIosLock size={23} />}
+            validationFunctions={[
+              validatePasswordIsReq,
+              validatePasswordIsMinLength,
+              validatePasswordHasUppercase,
+              validatePasswordHasNumber,
+              validatePasswordHasSpecialChar,
+            ]}
           />
 
           <div className="flex justify-center mt-6 ">
