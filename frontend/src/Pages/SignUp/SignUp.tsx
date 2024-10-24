@@ -10,10 +10,13 @@ import { RegisterDTO } from "../../Dto/RegisterDTO";
 import { CircularProgress } from "@mui/material";
 import * as Validators from "../../utils/imports/validationImports";
 import ErrorMessage from "../../Components/ErrorMessage/ErrorMessage";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 const SignUp: React.FC = () => {
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
+  const [messageColor, setMessageColor] = useState<"red" | "green">("red");
 
   const showErrorMessage = () => {
     setIsErrorVisible(true);
@@ -38,6 +41,15 @@ const SignUp: React.FC = () => {
     });
   };
 
+  const handleClearData = () => {
+    setRegisterData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    });
+  };
+
   const handleDismiss = () => {
     setIsErrorVisible(!isErrorVisible);
   };
@@ -48,12 +60,21 @@ const SignUp: React.FC = () => {
     setIsSigningUp(true);
 
     try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        registerData.email,
+        registerData.password
+      );
+
+      const token = await userCredential.user.getIdToken();
+
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/auth/register`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(registerData),
         }
@@ -64,13 +85,13 @@ const SignUp: React.FC = () => {
         throw errorData;
       }
 
-      const data = await response.json();
-      console.log(data);
+      setMessageColor("green");
+      handleClearData();
     } catch (error) {
-      console.error("Error fetching items:", error);
-      showErrorMessage();
+      setMessageColor("red");
     } finally {
       setIsSigningUp(false);
+      showErrorMessage();
     }
   };
 
@@ -191,8 +212,13 @@ const SignUp: React.FC = () => {
       <ErrorMessage
         isVisible={isErrorVisible}
         onClose={closeErrorMessage}
-        message="Could not Sign Up. Please try again"
+        message={
+          messageColor === "red"
+            ? "Could not Sign up, please try again."
+            : "Successfully signed up!"
+        }
         duration={5000}
+        color={messageColor}
       />
     </>
   );

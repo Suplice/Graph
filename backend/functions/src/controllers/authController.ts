@@ -1,21 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { User } from "../interfaces/User";
 import admin from "firebase-admin";
-import bcrypt from "bcrypt";
+import "firebase/auth";
 
 const registerUser = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password }: User = req.body;
+  const { firstName, lastName, email }: User = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const userRecord = await admin.auth().createUser({
-      email,
-      password: hashedPassword,
-      displayName: `${firstName} ${lastName}`,
-    });
-
-    const userRef = admin.firestore().collection("users").doc(userRecord.uid);
+    const userRef = admin.firestore().collection("users").doc(res.locals.uid);
     await userRef.set({
       firstName,
       lastName,
@@ -25,46 +17,41 @@ const registerUser = async (req: Request, res: Response) => {
 
     return res.status(201).json({
       message: "User created successfully",
-      uid: userRecord.uid,
-      email: userRecord.email,
+      uid: res.locals.uid,
+      email: email,
     });
   } catch (error) {
     console.error("Error creating user:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    const typedError = error as any;
+    return res
+      .status(500)
+      .json({ message: typedError.message, code: typedError.code }); // Send detailed error message
   }
 };
 
-const baseLoginUser = async (req: Request, res: Response) => {
-  const { email, password }: User = req.body;
+const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+  // Get the token from the Authorization header
+  const token = req.headers.authorization?.split("Bearer ")[1];
+
+  // Check if token exists
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
   try {
-    const userRecord = await admin.auth().getUserByEmail(email);
-    const user = userRecord.toJSON();
-    const userRef = admin.firestore().collection("users").doc(user.uid);
-    const userDoc = await userRef.get();
-    const userDocData = userDoc.data();
-
-    if (!userDocData) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordCorrect) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    return res.status(200).json({
-      message: "User logged in successfully",
-      uid: user.uid,
-      email: user.email,
-    });
+    // Verify the token using Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    res.locals.uid = decodedToken.uid;
+    return next();
   } catch (error) {
-    console.error("Error logging in user:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error("Error verifying token:", error);
+    return res
+      .status(403)
+      .json({ message: "Unauthorized: Invalid token", token: token });
   }
 };
 
 export default {
   registerUser,
+  verifyToken,
 };

@@ -7,6 +7,8 @@ import InputField from "../../Components/InputField/InputField";
 import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
 import { CircularProgress } from "@mui/material";
 import ErrorMessage from "../../Components/ErrorMessage/ErrorMessage";
+import { auth } from "../../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn: React.FC = () => {
   const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
@@ -15,6 +17,8 @@ const SignIn: React.FC = () => {
     email: "",
     password: "",
   });
+
+  const [messageColor, setMessageColor] = useState<"red" | "green">("red");
 
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
@@ -34,35 +38,36 @@ const SignIn: React.FC = () => {
     });
   };
 
-  const handleBaseLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setIsSigningIn(true);
-
+  const handleLogin = async () => {
     try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password
+      );
+      const token = await userCredential.user.getIdToken();
+
+      // Send token to backend for validation
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/auth/login`,
+        `${process.env.REACT_APP_API_URL}/auth/validateToken`,
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(loginData),
         }
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw errorData;
+        console.log(response.status);
+        throw new Error("Failed to validate token");
       }
 
       const data = await response.json();
-      console.log(data);
+      console.log("User logged in successfully:", data);
     } catch (error) {
-      console.error("Error fetching items:", error);
-      showErrorMessage();
-    } finally {
-      setIsSigningIn(false);
+      console.error("Login failed:", error);
     }
   };
 
@@ -124,7 +129,7 @@ const SignIn: React.FC = () => {
               <button
                 disabled={isSigningIn}
                 className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg h-11 text-xl font-sans transition-colors duration-300 w-full flex justify-center items-center"
-                onClick={handleBaseLogin}
+                onClick={handleLogin}
               >
                 {isSigningIn ? (
                   <CircularProgress
@@ -149,8 +154,13 @@ const SignIn: React.FC = () => {
       <ErrorMessage
         isVisible={isErrorVisible}
         onClose={closeErrorMessage}
-        message="Could not Sign In. Please try again"
+        message={
+          messageColor === "red"
+            ? "Could not Sign In. Please try again"
+            : "Signed in successfully"
+        }
         duration={5000}
+        color={messageColor}
       />
     </>
   );
