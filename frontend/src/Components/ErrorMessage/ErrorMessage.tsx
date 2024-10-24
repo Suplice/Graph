@@ -6,6 +6,7 @@ interface ErrorMessageProps {
   onClose: () => void;
   duration: number;
   message: string;
+  color: "red" | "green";
 }
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({
@@ -13,6 +14,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
   onClose,
   duration,
   message,
+  color,
 }) => {
   useEffect(() => {
     if (isVisible) {
@@ -32,7 +34,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -100, opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed top-0 left-0 right-0 mx-auto bg-red-500 text-white p-4 shadow-md text-center sm:w-[500px] rounded-md w-[250px]"
+          className={`fixed top-0 left-0 right-0 mx-auto text-white p-4 shadow-md text-center sm:w-[500px] rounded-md w-[250px] ${color === "red" ? "bg-red-400" : "bg-green-400"}`}
           style={{ marginTop: "20px" }}
         >
           <div className="flex justify-between items-center">
@@ -45,12 +47,12 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
             </button>
           </div>
           {/* Time bar */}
-          <div className="relative w-full h-1 mt-2 bg-red-300 rounded">
+          <div className="relative w-full h-1 mt-2 bg-white rounded">
             <motion.div
               initial={{ width: "100%" }}
               animate={{ width: 0 }}
               transition={{ duration: duration / 1000, ease: "linear" }}
-              className="absolute top-0 left-0 h-full bg-red-700 rounded"
+              className={`absolute top-0 left-0 h-full  rounded ${color === "red" ? "bg-red-700" : "bg-green-700"}`}
             />
           </div>
         </motion.div>
