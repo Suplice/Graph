@@ -39,6 +39,8 @@ const SignIn: React.FC = () => {
   };
 
   const handleLogin = async () => {
+    setIsSigningIn(true);
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -60,14 +62,15 @@ const SignIn: React.FC = () => {
       );
 
       if (!response.ok) {
-        console.log(response.status);
         throw new Error("Failed to validate token");
       }
 
-      const data = await response.json();
-      console.log("User logged in successfully:", data);
+      setMessageColor("green");
     } catch (error) {
-      console.error("Login failed:", error);
+      setMessageColor("red");
+    } finally {
+      setIsSigningIn(false);
+      showErrorMessage();
     }
   };
 
