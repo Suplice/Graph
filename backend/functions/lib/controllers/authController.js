@@ -4,17 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+require("firebase/auth");
 const registerUser = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email } = req.body;
     try {
-        const hashedPassword = await bcrypt_1.default.hash(password, 10);
-        const userRecord = await firebase_admin_1.default.auth().createUser({
-            email,
-            password: hashedPassword,
-            displayName: `${firstName} ${lastName}`,
-        });
-        const userRef = firebase_admin_1.default.firestore().collection("users").doc(userRecord.uid);
+        const userRef = firebase_admin_1.default.firestore().collection("users").doc(res.locals.uid);
         await userRef.set({
             firstName,
             lastName,
@@ -23,16 +17,41 @@ const registerUser = async (req, res) => {
         });
         return res.status(201).json({
             message: "User created successfully",
-            uid: userRecord.uid,
-            email: userRecord.email,
+            uid: res.locals.uid,
+            email: email,
         });
     }
     catch (error) {
         console.error("Error creating user:", error);
-        return res.status(500).json({ message: "Internal server error" });
+        const typedError = error;
+        return res
+            .status(500)
+            .json({ message: typedError.message, code: typedError.code }); // Send detailed error message
+    }
+};
+const verifyToken = async (req, res, next) => {
+    var _a;
+    // Get the token from the Authorization header
+    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split("Bearer ")[1];
+    // Check if token exists
+    if (!token) {
+        return res.status(401).json({ message: "No token provided" });
+    }
+    try {
+        // Verify the token using Firebase Admin SDK
+        const decodedToken = await firebase_admin_1.default.auth().verifyIdToken(token);
+        res.locals.uid = decodedToken.uid;
+        return next();
+    }
+    catch (error) {
+        console.error("Error verifying token:", error);
+        return res
+            .status(403)
+            .json({ message: "Unauthorized: Invalid token", token: token });
     }
 };
 exports.default = {
     registerUser,
+    verifyToken,
 };
 //# sourceMappingURL=authController.js.map
