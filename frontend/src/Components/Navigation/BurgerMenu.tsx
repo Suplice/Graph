@@ -1,3 +1,5 @@
+import { duration } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useRef, useEffect } from "react";
 import { RiMenu3Line } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
@@ -31,7 +33,9 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ status }) => {
   }, []);
 
   return (
-    <div className={`${status === "none" ? "hidden" : "relative"}`}>
+    <div className={`${status === "none" ? "hidden" : "relative"}`}
+    >
+    
       <div ref={iconRef} className="">
         <RiMenu3Line
           size={40}
@@ -41,11 +45,18 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ status }) => {
           className="cursor-pointer"
         />
       </div>
-      <div
+      <AnimatePresence>
+      {isVisible ? 
+      <motion.div
+      initial={{ opacity: 0, scale: 0.0, y: -20 }}
+      animate={{ opacity: 1, scale: 1.0, y: 0 }}
+      exit={{ opacity: 0, scale: 0.0, y: -20 }}
+      style={{ originX: 1, originY: 0 }}
+      transition={{ duration: 0.3 }}
         ref={menuRef}
-        className={`absolute w-48 md:w-72 border transform -translate-x-[156px] md:-translate-x-[252px] rounded-lg text-center z-40 ${status === "partial" ? "" : "pt-2"}  bg-slate-200  ${isVisible ? "absolute" : "hidden"}`}
+        className={` w-48 md:w-72 border transform    right-0 rounded-lg absolute text-center z-40 ${status === "partial" ? "" : "pt-2"}  bg-slate-200  ${isVisible ? "" : "hidden"}`}
       >
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col ">
           <li className={`${status === "full" ? "" : "hidden"}`}>
             <NavLink
               to="/"
@@ -91,7 +102,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ status }) => {
           >
             <NavLink
               to="/SignIn"
-              className={` block font-mono  ${status === "partial" ? "hover:bg-slate-50 rounded-md p-1" : "border-diminished-t pt-2 mt-1 "}  transition-colors`}
+              className={` block font-semibold font-mono py-3   transition-colors  ${status === "partial" ? " " : "border-diminished-t  "}`}
             >
               Sign In
             </NavLink>
@@ -101,13 +112,15 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ status }) => {
           >
             <NavLink
               to="/SignUp"
-              className="hover:bg-blue-600 block font-mono text-white bg-blue-500 rounded-md p-1 transition-colors"
+              className="hover:bg-gray-300 block font-mono text-black rounded-md  transition-colors w-full py-3 font-semibold border-diminished-t"
             >
               Sign Up
             </NavLink>
           </li>
         </ul>
-      </div>
+      </motion.div>
+      : ""}
+       </AnimatePresence>
     </div>
   );
 };
