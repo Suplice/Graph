@@ -91,7 +91,7 @@ const GuestNavbar: React.FC = () => {
       </ul>
       <div className="lg:space-x-4 text-lg font-mono lg:flex-row hidden 2xl:flex ">
         <NavLink to="/SignIn">
-          <button className="px-4 py-2 rounded text-3xl">Sign In</button>
+          <button className="px-5 py-3 rounded text-3xl">Sign In</button>
         </NavLink>
         <NavLink to="/SignUp">
           <button className="bg-blue-500 text-white px-5 py-3 rounded-xl text-3xl hover:bg-blue-600 transition-colors duration-300">
