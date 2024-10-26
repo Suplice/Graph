@@ -10,15 +10,18 @@ import { RegisterDTO } from "../../Dto/RegisterDTO";
 import { CircularProgress } from "@mui/material";
 import * as Validators from "../../utils/imports/validationImports";
 import ErrorMessage from "../../Components/ErrorMessage/ErrorMessage";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 import { auth } from "../../firebaseConfig";
 
 const SignUp: React.FC = () => {
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
   const [messageColor, setMessageColor] = useState<"red" | "green">("red");
+  const [message, setMessage] = useState<string>("");
 
-  const showErrorMessage = () => {
+  const showErrorMessage = (message: string) => {
+    setMessage(message);
     setIsErrorVisible(true);
   };
 
@@ -59,13 +62,37 @@ const SignUp: React.FC = () => {
 
     setIsSigningUp(true);
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        registerData.email,
-        registerData.password
-      );
+    let userCredential: UserCredential | undefined;
 
+    try {
+      let userCredential;
+
+      try {
+        userCredential = await createUserWithEmailAndPassword(
+          auth,
+          registerData.email,
+          registerData.password
+        );
+      } catch (error) {
+        // Check if the error is due to the email already existing
+        if (
+          error instanceof FirebaseError &&
+          error.code === "auth/email-already-in-use"
+        ) {
+          console.error("An account with this email already exists.");
+          setMessageColor("red");
+          showErrorMessage("An account with this email already exists.");
+        } else {
+          console.error(
+            "An unexpected error occurred during registration.",
+            error
+          );
+        }
+        setIsSigningUp(false);
+        return; // Stop execution if there's an error creating the user
+      }
+
+      // Proceed with backend registration if Firebase registration succeeded
       const token = await userCredential.user.getIdToken();
 
       const response = await fetch(
@@ -86,12 +113,28 @@ const SignUp: React.FC = () => {
       }
 
       setMessageColor("green");
+      showErrorMessage("User registered successfully!");
       handleClearData();
     } catch (error) {
+      console.error("Failed to register user in the database:", error);
+
+      // If Firebase user creation was successful but API registration failed, delete the Firebase user to "rollback"
+      if (userCredential) {
+        try {
+          await userCredential.user.delete();
+          console.log("Rolled back Firebase user creation due to API failure.");
+        } catch (deleteError) {
+          console.error(
+            "Failed to rollback Firebase user creation:",
+            deleteError
+          );
+        }
+      }
+
       setMessageColor("red");
+      showErrorMessage("Failed to register user. Please try again.");
     } finally {
       setIsSigningUp(false);
-      showErrorMessage();
     }
   };
 
@@ -212,11 +255,7 @@ const SignUp: React.FC = () => {
       <ErrorMessage
         isVisible={isErrorVisible}
         onClose={closeErrorMessage}
-        message={
-          messageColor === "red"
-            ? "Could not Sign up, please try again."
-            : "Successfully signed up!"
-        }
+        message={message}
         duration={5000}
         color={messageColor}
       />
