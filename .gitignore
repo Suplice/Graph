@@ -44,3 +44,4 @@ backend/firebase.json
 backend/functions/src/Config/serviceAccountKey.json
 frontend/firebaseConfig.ts
 frontend/src/firebaseConfig.ts
+frontend/src/firebaseConfig.ts
