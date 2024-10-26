@@ -82,6 +82,13 @@ const SignUp: React.FC = () => {
           console.error("An account with this email already exists.");
           setMessageColor("red");
           showErrorMessage("An account with this email already exists.");
+        } else if (
+          error instanceof FirebaseError &&
+          error.code === "auth/invalid-email"
+        ) {
+          console.error("The email entered is invalid.");
+          setMessageColor("red");
+          showErrorMessage("Entered data is Invalid.");
         } else {
           console.error(
             "An unexpected error occurred during registration.",
