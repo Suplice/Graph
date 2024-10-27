@@ -4,7 +4,6 @@ import { PhoneInput } from "react-international-phone";
 import ErrorMessage from "../../Components/ErrorMessage/ErrorMessage";
 
 const ContactMenu: React.FC = () => {
-  const [phone, setPhone] = useState("");
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [characterCount, setCharacterCount] = useState<number>(0);
@@ -63,12 +62,15 @@ const ContactMenu: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify(messageData),
       });
 
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
+
+      const responseData = await response.json();
+      console.log(responseData);
 
       setActionMessageColor("green");
       showActionMessage("Message sent successfully!");
