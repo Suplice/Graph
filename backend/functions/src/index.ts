@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import * as admin from "firebase-admin";
 import authRoutes from "./routes/authRoutes";
+import contactRoutes from "./routes/contactRoutes";
 
 admin.initializeApp();
 
@@ -19,6 +20,8 @@ app.use(
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+
+app.use("/contact", contactRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello from Express!");

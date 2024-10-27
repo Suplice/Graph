@@ -11,4 +11,6 @@ router.post(
   authController.registerUser
 );
 
+router.post;
+
 export default router;
