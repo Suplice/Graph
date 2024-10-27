@@ -53,6 +53,21 @@ const SignUp: React.FC = () => {
     });
   };
 
+  const deleteUserIfNeeded = async (
+    userCredential: UserCredential | undefined
+  ) => {
+    if (userCredential) {
+      try {
+        await userCredential.user.delete();
+      } catch (deleteError) {
+        console.error(
+          "Failed to rollback Firebase user creation:",
+          deleteError
+        );
+      }
+    }
+  };
+
   const handleDismiss = () => {
     setIsErrorVisible(!isErrorVisible);
   };
@@ -65,8 +80,6 @@ const SignUp: React.FC = () => {
     let userCredential: UserCredential | undefined;
 
     try {
-      let userCredential;
-
       try {
         userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -74,32 +87,23 @@ const SignUp: React.FC = () => {
           registerData.password
         );
       } catch (error) {
-        // Check if the error is due to the email already existing
         if (
           error instanceof FirebaseError &&
           error.code === "auth/email-already-in-use"
         ) {
-          console.error("An account with this email already exists.");
           setMessageColor("red");
           showErrorMessage("An account with this email already exists.");
         } else if (
           error instanceof FirebaseError &&
           error.code === "auth/invalid-email"
         ) {
-          console.error("The email entered is invalid.");
           setMessageColor("red");
           showErrorMessage("Entered data is Invalid.");
-        } else {
-          console.error(
-            "An unexpected error occurred during registration.",
-            error
-          );
         }
         setIsSigningUp(false);
-        return; // Stop execution if there's an error creating the user
+        return;
       }
 
-      // Proceed with backend registration if Firebase registration succeeded
       const token = await userCredential.user.getIdToken();
 
       const response = await fetch(
@@ -123,20 +127,7 @@ const SignUp: React.FC = () => {
       showErrorMessage("User registered successfully!");
       handleClearData();
     } catch (error) {
-      console.error("Failed to register user in the database:", error);
-
-      // If Firebase user creation was successful but API registration failed, delete the Firebase user to "rollback"
-      if (userCredential) {
-        try {
-          await userCredential.user.delete();
-          console.log("Rolled back Firebase user creation due to API failure.");
-        } catch (deleteError) {
-          console.error(
-            "Failed to rollback Firebase user creation:",
-            deleteError
-          );
-        }
-      }
+      await deleteUserIfNeeded(userCredential);
 
       setMessageColor("red");
       showErrorMessage("Failed to register user. Please try again.");
