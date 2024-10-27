@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { User } from "../interfaces/User";
 import admin from "firebase-admin";
 import "firebase/auth";
@@ -29,7 +29,7 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-const verifyToken = async (req: Request, res: Response) => {
+const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   // Get the token from the Authorization header
   const token = req.headers.authorization?.split("Bearer ")[1];
   // Check if token exists
@@ -41,9 +41,7 @@ const verifyToken = async (req: Request, res: Response) => {
     // Verify the token using Firebase Admin SDK
     const decodedToken = await admin.auth().verifyIdToken(token);
     res.locals.uid = decodedToken.uid;
-    return res
-      .status(200)
-      .json({ message: "Token is valid", uid: decodedToken.uid });
+    return next();
   } catch (error) {
     console.error("Error verifying token:", error);
     return res
