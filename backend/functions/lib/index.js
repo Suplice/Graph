@@ -31,6 +31,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const admin = __importStar(require("firebase-admin"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const contactRoutes_1 = __importDefault(require("./routes/contactRoutes"));
 admin.initializeApp();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
@@ -40,6 +41,7 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use("/auth", authRoutes_1.default);
+app.use("/contact", contactRoutes_1.default);
 app.get("/", (req, res) => {
     res.send("Hello from Express!");
 });

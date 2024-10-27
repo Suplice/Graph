@@ -4,10 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const authController_1 = __importDefault(require("../controllers/authController"));
+const contactController_js_1 = __importDefault(require("../controllers/contactController.js"));
 const router = express_1.default.Router();
-router.post("/validateToken", authController_1.default.verifyToken);
-router.post("/register", authController_1.default.verifyToken, authController_1.default.registerUser);
+router.post("", contactController_js_1.default.receiveMessage);
 router.post;
 exports.default = router;
-//# sourceMappingURL=authRoutes.js.map
+//# sourceMappingURL=contactRoutes.js.map
