@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import InputField from "../../Components/InputField/InputField";
 import { IoIosLock } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
@@ -72,7 +72,8 @@ const SignUp: React.FC = () => {
     setIsErrorVisible(!isErrorVisible);
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (e: FormEvent) => {
+    e.preventDefault();
     setIsSigningUp(true);
 
     let userCredential: UserCredential | undefined;
@@ -137,8 +138,7 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        e.preventDefault();
-        handleRegister();
+        document.getElementById("registerButton")?.click();
       }
     };
 
@@ -239,6 +239,7 @@ const SignUp: React.FC = () => {
 
             <div className="flex justify-center mt-6 ">
               <button
+                id="registerButton"
                 disabled={isSigningUp}
                 className="bg-slate-900 hover:bg-slate-800 text-white py-2 h-11 rounded-lg text-xl font-sans transition-colors duration-300 w-full"
                 onClick={handleRegister}

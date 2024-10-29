@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
@@ -44,7 +44,8 @@ const SignIn: React.FC = () => {
     });
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
     setIsSigningIn(true);
 
     try {
@@ -77,7 +78,6 @@ const SignIn: React.FC = () => {
         throw new Error("Failed to validate token");
       }
 
-      console.log(token);
       localStorage.setItem("token", token);
       setMessageColor("green");
     } catch (error) {
@@ -91,9 +91,7 @@ const SignIn: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        e.preventDefault();
-        handleLogin();
-        console.log("login data", loginData);
+        document.getElementById("loginButton")?.click();
       }
     };
 
@@ -166,6 +164,7 @@ const SignIn: React.FC = () => {
 
             <div className="flex justify-center items-center">
               <button
+                id="loginButton"
                 disabled={isSigningIn}
                 className="bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg h-11 text-xl font-sans transition-colors duration-300 w-full flex justify-center items-center"
                 onClick={handleLogin}
