@@ -2,6 +2,7 @@ import { CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import ErrorMessage from "../../Components/ErrorMessage/ErrorMessage";
+import { MessageDTO } from "../../Dto/messageDTO";
 
 const ContactMenu: React.FC = () => {
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false);
@@ -13,7 +14,7 @@ const ContactMenu: React.FC = () => {
     "red"
   );
 
-  const [messageData, setMessageData] = useState({
+  const [messageData, setMessageData] = useState<MessageDTO>({
     firstName: "",
     lastName: "",
     email: "",
@@ -42,6 +43,16 @@ const ContactMenu: React.FC = () => {
     ) {
       throw new Error("Not all required fields are filled in");
     }
+  };
+
+  const handleClearData = async () => {
+    setMessageData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      message: "",
+    });
   };
 
   const showActionMessage = (message: string) => {
@@ -74,6 +85,8 @@ const ContactMenu: React.FC = () => {
 
       setActionMessageColor("green");
       showActionMessage("Message sent successfully!");
+      await handleClearData();
+      console.log(messageData);
     } catch (error: any) {
       console.error("An error occurred while sending the message", error);
       setActionMessageColor("red");
@@ -88,7 +101,7 @@ const ContactMenu: React.FC = () => {
   return (
     <>
       <div className="w-full md:w-3/5 flex flex-row flex-wrap ">
-        <div className="w-full md:w-1/2 px-1 lg:pr-4 xl:pr-10">
+        <div className="w-full md:w-1/2 px-1 lg:pr-4 xl:pr-10 lg:mb-2 mb-2">
           <label className="font-semibold pl-2">First Name *</label>
           <input
             name="firstName"
@@ -96,11 +109,11 @@ const ContactMenu: React.FC = () => {
             className="w-full border-2 rounded-xl border-gray-300 p-2 lg:p-3 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500"
             placeholder="First Name"
             onChange={handleInputChange}
+            value={messageData.firstName}
           ></input>
-          <p className="text-sm text-red-500 pl-2 ">error</p>
         </div>
 
-        <div className="w-full md:w-1/2 px-1 lg:pr-4 xl:pr-10 md:mt-0 mt-2">
+        <div className="w-full md:w-1/2 px-1 lg:pr-4 xl:pr-10 md:mt-0  mb-2">
           <label className="font-semibold pl-2 h-5">Last Name</label>
           <input
             name="lastName"
@@ -108,23 +121,23 @@ const ContactMenu: React.FC = () => {
             className="w-full border-2 rounded-xl border-gray-300 p-2 lg:p-3 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500"
             placeholder="Last Name"
             onChange={handleInputChange}
+            value={messageData.lastName}
           ></input>
-          <p className="text-sm text-red-500 pl-2 h-5">error</p>
         </div>
 
-        <div className="w-full px-1 lg:pr-4 xl:pr-10">
+        <div className="w-full px-1 lg:pr-4 xl:pr-10 mb-2">
           <label className="font-semibold pl-2">Email Addres *</label>
           <input
             name="email"
-            type="text"
+            type="email"
             className="w-full border-2 rounded-xl border-gray-300 p-2 focus:outline-none focus:border-slate-400 focus:placeholder-slate-500"
             placeholder="you@example.com"
             onChange={handleInputChange}
+            value={messageData.email}
           ></input>
-          <p className="text-sm text-red-500 pl-2 h-5">error</p>
         </div>
 
-        <div className="w-full px-1 lg:pr-4  xl:pr-10">
+        <div className="w-full px-1 lg:pr-4  xl:pr-10 mb-2">
           <label className="font-semibold pl-2">Phone Number *</label>
           <PhoneInput
             onFocus={() => setIsFocused(true)}
@@ -141,7 +154,6 @@ const ContactMenu: React.FC = () => {
               buttonClassName: "countrySelectorButton",
             }}
           />
-          <p className="text-sm text-red-500 pl-2 h-5">error</p>
         </div>
 
         <div className="w-full px-1 lg:pr-4  xl:pr-10 ">
@@ -151,6 +163,7 @@ const ContactMenu: React.FC = () => {
             placeholder="Leave us a message..."
             rows={5}
             name="message"
+            value={messageData.message}
             maxLength={200} // Set a maximum length for the message
             onChange={(e) => {
               setCharacterCount(e.target.value.length);
@@ -158,8 +171,7 @@ const ContactMenu: React.FC = () => {
             }}
           />
           <div className="flex flex-row">
-            <p className="text-sm text-red-500 -translate-y-1 pl-2 h-5 w-1/2"></p>
-            <p className="text-right -translate-y-1  font-normal text-sm md:text-base w-1/2">
+            <p className="text-right -translate-y-1  font-normal text-sm md:text-base w-full">
               ({characterCount}/200)
             </p>
           </div>
