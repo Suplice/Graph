@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../../Components/InputField/InputField";
 import { IoIosLock } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
@@ -72,9 +72,7 @@ const SignUp: React.FC = () => {
     setIsErrorVisible(!isErrorVisible);
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleRegister = async () => {
     setIsSigningUp(true);
 
     let userCredential: UserCredential | undefined;
@@ -135,6 +133,21 @@ const SignUp: React.FC = () => {
       setIsSigningUp(false);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleRegister();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <>

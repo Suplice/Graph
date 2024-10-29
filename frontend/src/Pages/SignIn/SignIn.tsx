@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
@@ -8,10 +8,16 @@ import SocialAuthButtons from "../../Components/SignUp/SocialAuthButtons";
 import { CircularProgress } from "@mui/material";
 import ErrorMessage from "../../Components/ErrorMessage/ErrorMessage";
 import { auth } from "../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  browserLocalPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 
 const SignIn: React.FC = () => {
   const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
+
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const [loginData, setLoginData] = useState<LoginDTO>({
     email: "",
@@ -42,6 +48,12 @@ const SignIn: React.FC = () => {
     setIsSigningIn(true);
 
     try {
+      if (rememberMe) {
+        await auth.setPersistence(browserLocalPersistence);
+      } else {
+        await auth.setPersistence(browserSessionPersistence);
+      }
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
@@ -65,6 +77,8 @@ const SignIn: React.FC = () => {
         throw new Error("Failed to validate token");
       }
 
+      console.log(token);
+      localStorage.setItem("token", token);
       setMessageColor("green");
     } catch (error) {
       setMessageColor("red");
@@ -73,6 +87,22 @@ const SignIn: React.FC = () => {
       showErrorMessage();
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleLogin();
+        console.log("login data", loginData);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <>
@@ -120,7 +150,13 @@ const SignIn: React.FC = () => {
                 <p className="text-red-500 ml-1 text-sm w-3/5 text-wrap pr-2"></p>
               </div>
               <div className="flex flex-row items-center mt-1">
-                <input type="checkbox" className="ml-1"></input>
+                <input
+                  type="checkbox"
+                  className="ml-1"
+                  onChange={(e) => {
+                    setRememberMe(e.target.checked);
+                  }}
+                ></input>
                 <p className="ml-1">Remember me</p>
                 <p className="w-2/5 text-left ml-auto hover:underline hover:cursor-pointer">
                   Forgot Password?
