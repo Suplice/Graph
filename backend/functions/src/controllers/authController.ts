@@ -29,26 +29,33 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-  // Get the token from the Authorization header
-  const token = req.headers.authorization?.split("Bearer ")[1];
-  // Check if token exists
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
+const verifyToken =
+  (continuePipeline: Boolean) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Get the token from the Authorization header
+    const token = req.headers.authorization?.split("Bearer ")[1];
+    // Check if token exists
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
 
-  try {
-    // Verify the token using Firebase Admin SDK
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    res.locals.uid = decodedToken.uid;
-    return next();
-  } catch (error) {
-    console.error("Error verifying token:", error);
-    return res
-      .status(403)
-      .json({ message: "Unauthorized: Invalid token", token: token });
-  }
-};
+    try {
+      // Verify the token using Firebase Admin SDK
+      const decodedToken = await admin.auth().verifyIdToken(token);
+      res.locals.uid = decodedToken.uid;
+
+      if (continuePipeline) {
+        return next();
+      }
+
+      return res.status(200).json({ message: "Token is valid", token: token });
+    } catch (error) {
+      console.error("Error verifying token:", error);
+      return res
+        .status(403)
+        .json({ message: "Unauthorized: Invalid token", token: token });
+    }
+  };
 
 export default {
   registerUser,

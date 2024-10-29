@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
             .json({ message: typedError.message, code: typedError.code }); // Send detailed error message
     }
 };
-const verifyToken = async (req, res, next) => {
+const verifyToken = (continuePipeline) => async (req, res, next) => {
     var _a;
     // Get the token from the Authorization header
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split("Bearer ")[1];
@@ -41,7 +41,10 @@ const verifyToken = async (req, res, next) => {
         // Verify the token using Firebase Admin SDK
         const decodedToken = await firebase_admin_1.default.auth().verifyIdToken(token);
         res.locals.uid = decodedToken.uid;
-        return next();
+        if (continuePipeline) {
+            return next();
+        }
+        return res.status(200).json({ message: "Token is valid", token: token });
     }
     catch (error) {
         console.error("Error verifying token:", error);
