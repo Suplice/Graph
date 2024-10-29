@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import GuestNavbar from "../Navigation/GuestNavbar";
 import MainFooter from "./MainFooter";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 interface LayoutProps {
   children: React.ReactNode;
-  isLoggedIn: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     window.scrollTo(0, 0);
