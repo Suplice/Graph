@@ -8,6 +8,7 @@ const authController_1 = __importDefault(require("../controllers/authController"
 const router = express_1.default.Router();
 router.post("/validateToken", authController_1.default.verifyToken(false));
 router.post("/register", authController_1.default.verifyToken(true), authController_1.default.registerUser);
+router.get("/user/:id", authController_1.default.verifyToken(true), authController_1.default.getUser);
 router.post;
 exports.default = router;
 //# sourceMappingURL=authRoutes.js.map
