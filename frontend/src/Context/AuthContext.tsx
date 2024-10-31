@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -29,10 +23,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (user) {
         setIsLoggedIn(true);
         localStorage.setItem("token", await user.getIdToken());
-        console.log("User is logged in");
+        localStorage.setItem("uid", user.uid);
+        console.log(user);
       } else {
         setIsLoggedIn(false);
         localStorage.removeItem("token");
+        localStorage.removeItem("uid");
         console.log("User is not logged in");
       }
     });
