@@ -26,8 +26,14 @@ const Main: React.FC = () => {
         <Router>
           <Layout>
             <Routes>
-              <Route path="*" element={<Landing />}></Route>
-              <Route path="/" element={<Landing />}></Route>
+              <Route
+                path="*"
+                element={isLoggedIn ? <Navigate to="/home" /> : <Landing />}
+              ></Route>
+              <Route
+                path="/"
+                element={isLoggedIn ? <Navigate to="/home" /> : <Landing />}
+              ></Route>
               <Route path="/Contact" element={<Contact />}></Route>
               <Route
                 path="/GetStarted"
