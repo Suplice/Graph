@@ -10,8 +10,6 @@ const GuestNavbar: React.FC = () => {
     const handleStatusChange = () => {
       const currentWidth = window.innerWidth;
 
-      console.log(currentWidth);
-
       if (currentWidth >= 1536) {
         setStatus("none");
       } else if (currentWidth >= 1124) {
