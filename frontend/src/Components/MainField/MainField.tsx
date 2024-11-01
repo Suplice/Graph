@@ -1,14 +1,23 @@
 import React from "react";
+import Overview from "../Overview/Overview";
 
 interface MainFieldProps {
   selectedTab: string;
 }
 
 const MainField: React.FC<MainFieldProps> = ({ selectedTab }) => {
+  const selectedComponent = () => {
+    switch (selectedTab) {
+      case "Overview":
+        return <Overview />;
+      default:
+        return <Overview />;
+    }
+  };
+
   return (
-    <div className="w-5/6 p-10 m-6 ml-0 bg-[#FFFFFF] rounded-lg border-2 border-gray-300">
-      {selectedTab === "graphs" && <h1>this is graphs page</h1>}
-      <h1>this is main field</h1>
+    <div className="w-5/6 my-auto mx-2  ml-0 bg-[#FFFFFF] rounded-lg border-2 border-gray-300 ">
+      {selectedComponent()}
     </div>
   );
 };
