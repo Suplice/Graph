@@ -1,0 +1,43 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 16px; /* Adjust the gap between items if needed */
+  grid-template-areas:
+    "recent-uploads graph-types favorite-graphs"
+    "statistics-summary quick-start-guide function-plotter-preview";
+  padding: 16px;
+  margin: auto;
+  max-width: 1500px;
+}
+
+/* Specific positioning for each component */
+.recent-uploads {
+  grid-column: 1 / 2; /* First column */
+  grid-row: 1 / 3; /* Spans two rows */
+}
+
+.graph-types {
+  grid-column: 2 / 3; /* Second column */
+  grid-row: 1 / 2; /* One row */
+}
+
+.favorite-graphs {
+  grid-column: 3 / 4; /* Third column */
+  grid-row: 1 / 3; /* Spans two rows */
+}
+
+.quick-start-guide {
+  grid-column: 2 / 3; /* Second column */
+  grid-row: 2 / 4; /* One row */
+}
+
+.statistics-summary {
+  grid-column: 1 / 2; /* First column */
+  grid-row: 3 / 4; /* Spans two rows */
+}
+
+.function-plotter-preview {
+  grid-column: 3 / 4; /* Spans second and third columns */
+  grid-row: 3 / 4; /* One row */
+}
