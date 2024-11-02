@@ -9,6 +9,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineContactSupport, MdOutlineDashboard } from "react-icons/md";
 import { RiHome6Line } from "react-icons/ri";
 import { GoArrowLeft } from "react-icons/go";
+import { CircularProgress } from "@mui/material";
 
 interface UserNavbarProps {
   selectedTab: string;
@@ -21,6 +22,8 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
 }) => {
   const { logout, isLoggedIn } = useAuth();
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [userEmail, setUserEmail] = useState<string | null>("");
   const [userName, setUserName] = useState<string>("");
   const [userSurname, setUserSurname] = useState<string>("");
@@ -28,7 +31,11 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!isLoggedIn) return;
+      setIsLoading(true);
+      if (!isLoggedIn) {
+        setIsLoading(false);
+        return;
+      }
 
       const id = localStorage.getItem("uid");
 
@@ -44,6 +51,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
           setUserEmail(data.email);
           setUserName(data.firstName);
           setUserSurname(data.lastName);
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
@@ -169,12 +177,24 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
             </div>
 
             <div className="flex flex-col w-4/6 pb-2 pl-1 text-left">
-              <p className="text-lg font-medium">
-                {userName} {userSurname}
-              </p>
-              <p className="text-[12px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
-                {userEmail}
-              </p>
+              {isLoading ? (
+                <div className="flex justify-center items-center pt-2">
+                  <CircularProgress
+                    size={30}
+                    color="primary"
+                  ></CircularProgress>
+                </div>
+              ) : (
+                <>
+                  {" "}
+                  <p className="text-lg font-medium">
+                    {userName} {userSurname}
+                  </p>
+                  <p className="text-[12px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
+                    {userEmail}
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="w-1/6 flex items-center justify-center">
