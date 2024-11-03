@@ -1,5 +1,6 @@
 import React from "react";
 import Overview from "../Overview/Overview";
+import FunctionPlotter from "../FunctionPlotter/FunctionPlotter";
 
 interface MainFieldProps {
   selectedTab: string;
@@ -10,13 +11,15 @@ const MainField: React.FC<MainFieldProps> = ({ selectedTab }) => {
     switch (selectedTab) {
       case "Overview":
         return <Overview />;
+      case "Plotter":
+        return <FunctionPlotter />;
       default:
         return <Overview />;
     }
   };
 
   return (
-    <div className="w-5/6 my-auto mx-2  ml-0 bg-[#FFFFFF] rounded-lg border-2 border-gray-300 ">
+    <div className="w-5/6   bg-[#FFFFFF] rounded-lg border-2 border-gray-300 ">
       {selectedComponent()}
     </div>
   );
