@@ -6,10 +6,15 @@ import {
   PiArrowsOutLineVerticalLight,
 } from "react-icons/pi";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdOutlineContactSupport, MdOutlineDashboard } from "react-icons/md";
+import {
+  MdAutoGraph,
+  MdOutlineContactSupport,
+  MdOutlineDashboard,
+} from "react-icons/md";
 import { RiHome6Line } from "react-icons/ri";
 import { GoArrowLeft } from "react-icons/go";
 import { CircularProgress } from "@mui/material";
+import { FcScatterPlot } from "react-icons/fc";
 
 interface UserNavbarProps {
   selectedTab: string;
@@ -99,6 +104,20 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
             >
               <MdOutlineDashboard size={24} />
               <p className="ml-3">Dashboard</p>
+            </li>
+          </button>
+
+          <button
+            onClick={() => onTabChange("Plotter")}
+            className="w-full text-left"
+          >
+            <li
+              className={`${
+                selectedTab === "Plotter" ? "bg-[#d8d6d6] text-[#252525]" : ""
+              } hover:bg-[#d8d6d6] p-2 px-3 w-full rounded-lg hover:text-[#252525] flex flex-row items-center`}
+            >
+              <MdAutoGraph size={24} />
+              <p className="ml-3">Plotter</p>
             </li>
           </button>
 
