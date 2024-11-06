@@ -8,7 +8,7 @@
     "statistics-summary quick-start-guide function-plotter-preview";
   padding: 16px;
   margin: auto;
-  max-width: 1500px;
+  overflow: auto;
 }
 
 /* Specific positioning for each component */
@@ -40,4 +40,50 @@
 .function-plotter-preview {
   grid-column: 3 / 4; /* Spans second and third columns */
   grid-row: 3 / 4; /* One row */
+}
+
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "recent-uploads graph-types"
+      "favorite-graphs statistics-summary"
+      "quick-start-guide function-plotter-preview";
+  }
+
+  /* Reset each item to span the entire width */
+  .recent-uploads,
+  .graph-types,
+  .favorite-graphs,
+  .quick-start-guide,
+  .statistics-summary,
+  .function-plotter-preview {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "recent-uploads"
+      "graph-types"
+      "favorite-graphs"
+      "statistics-summary"
+      "quick-start-guide"
+      "function-plotter-preview";
+  }
+
+  /* Reset each item to span the entire width */
+  .recent-uploads,
+  .graph-types,
+  .favorite-graphs,
+  .quick-start-guide,
+  .statistics-summary,
+  .function-plotter-preview {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
 }
