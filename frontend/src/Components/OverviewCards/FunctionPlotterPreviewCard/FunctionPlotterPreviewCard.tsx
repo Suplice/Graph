@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { motion } from "framer-motion";
 
 Chart.register(...registerables);
 
@@ -69,7 +70,7 @@ const FunctionPlotterPreviewCard: React.FC = () => {
         <input
           type="text"
           placeholder="Enter a function, e.g., x+2 or y=x+2"
-          className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 transition duration-200 text-gray-700 placeholder-gray-400"
+          className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-black transition duration-200 text-gray-700 placeholder-gray-400"
           value={functionInput}
           onChange={handleInputChange}
         />

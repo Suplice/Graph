@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { motion } from "framer-motion";
 
 Chart.register(...registerables);
 const FunctionPlotter: React.FC = () => {
@@ -57,9 +58,14 @@ const FunctionPlotter: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 w-full h-full ">
-      <h2 className="text-2xl font-semibold text-gray-800">Function Plotter</h2>
-      <p className="text-gray-600 mt-2">
+    <motion.div
+      className="bg-white rounded-xl shadow-lg p-8 w-full h-full "
+      initial={{ opacity: 0.0 }}
+      animate={{ opacity: 1.0, transition: { duration: 0.5 } }}
+      exit={{ opacity: 0.0 }}
+    >
+      <h2 className="font-bold text-3xl text-gray-800">Function Plotter</h2>
+      <p className="text-gray-600 mt-2 text-xl font-sans">
         Plot your mathematical functions below.
       </p>
 
@@ -67,7 +73,7 @@ const FunctionPlotter: React.FC = () => {
         <input
           type="text"
           placeholder="Enter a function, e.g., x+2"
-          className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 transition duration-200 text-gray-700 placeholder-gray-400"
+          className="w-full p-3 border border-gray-300 rounded-lg  outline-none ring-0 focus:border-black transition duration-200 text-gray-700 placeholder-gray-400"
           value={functionInput}
           onChange={handleInputChange}
         />
@@ -86,7 +92,7 @@ const FunctionPlotter: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
