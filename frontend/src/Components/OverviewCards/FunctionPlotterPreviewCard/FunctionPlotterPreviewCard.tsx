@@ -68,7 +68,7 @@ const FunctionPlotterPreviewCard: React.FC = () => {
       <div className="mt-4">
         <input
           type="text"
-          placeholder="Enter a function, e.g., x+2"
+          placeholder="Enter a function, e.g., x+2 or y=x+2"
           className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 transition duration-200 text-gray-700 placeholder-gray-400"
           value={functionInput}
           onChange={handleInputChange}

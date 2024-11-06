@@ -34,7 +34,9 @@ const FunctionPlotter: React.FC = () => {
     const input = e.target.value;
     setFunctionInput(input);
 
-    if (input) {
+    if (input.replace(/\s\t]+/g, "").substring(0, 2) === "y=") {
+      generateGraphData(input.substring(2));
+    } else if (input) {
       generateGraphData(input);
     } else {
       setGraphData({ labels: [], data: [] });

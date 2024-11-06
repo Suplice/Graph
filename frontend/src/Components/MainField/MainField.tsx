@@ -19,7 +19,7 @@ const MainField: React.FC<MainFieldProps> = ({ selectedTab }) => {
   };
 
   return (
-    <div className="w-5/6   bg-[#FFFFFF] rounded-lg border-2 border-gray-300 ">
+    <div className="w-5/6   bg-[#FFFFFF] rounded-lg border-2 border-gray-300 overflow-auto">
       {selectedComponent()}
     </div>
   );
