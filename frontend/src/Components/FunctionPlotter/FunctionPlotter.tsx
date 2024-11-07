@@ -61,11 +61,13 @@ const FunctionPlotter: React.FC = () => {
     <motion.div
       className="bg-white rounded-xl shadow-lg p-8 w-full h-full "
       initial={{ opacity: 0.0 }}
-      animate={{ opacity: 1.0, transition: { duration: 0.5 } }}
+      animate={{ opacity: 1.0, transition: { duration: 0.7 } }}
       exit={{ opacity: 0.0 }}
     >
-      <h2 className="font-bold text-3xl text-gray-800">Function Plotter</h2>
-      <p className="text-gray-600 mt-2 text-xl font-sans">
+      <h2 className="font-bold text-3xl text-gray-800 text-center">
+        Function Plotter
+      </h2>
+      <p className="text-gray-600 mt-2 text-xl font-sans text-center">
         Plot your mathematical functions below.
       </p>
 
