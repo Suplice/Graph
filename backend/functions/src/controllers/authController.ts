@@ -3,7 +3,11 @@ import { User } from "../interfaces/User";
 import admin from "firebase-admin";
 import "firebase/auth";
 
-const registerUser = async (req: Request, res: Response) => {
+const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { firstName, lastName, email }: User = req.body;
 
   try {
@@ -15,6 +19,8 @@ const registerUser = async (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     });
 
+    return next();
+
     return res.status(201).json({
       message: "User created successfully",
       uid: res.locals.uid,
@@ -25,7 +31,7 @@ const registerUser = async (req: Request, res: Response) => {
     const typedError = error as any;
     return res
       .status(500)
-      .json({ message: typedError.message, code: typedError.code }); // Send detailed error message
+      .json({ message: typedError.message, code: typedError.code });
   }
 };
 

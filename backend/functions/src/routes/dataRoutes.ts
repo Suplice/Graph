@@ -5,13 +5,13 @@ import authController from "../controllers/authController";
 const router = express.Router();
 
 router.get(
-  "/statistics",
+  "/getStatistics/:id",
   authController.verifyToken(true),
   dataController.getStatistics
 );
 
 router.put(
-  "/statistics",
+  "/setStatistics/:id",
   authController.verifyToken(true),
   dataController.updateStatistics
 );

@@ -48,4 +48,26 @@ const updateStatistics = async (req: Request, res: Response) => {
   }
 };
 
-export default { updateStatistics, getStatistics };
+const createStatistics = async (req: Request, res: Response) => {
+  const id = res.locals.uid;
+
+  try {
+    const statisticsRef = admin.firestore().collection("statistics").doc(id);
+
+    await statisticsRef.set({
+      createdGraphs: 0,
+      plottedFunctions: 0,
+      uploadedDataSets: 0,
+    });
+
+    return res.status(201).json({ message: "Registered user successfully" });
+  } catch (error) {
+    console.error("Error creating statistics data:", error);
+    const typedError = error as any;
+    return res
+      .status(500)
+      .json({ message: typedError.message, code: typedError.code });
+  }
+};
+
+export default { updateStatistics, getStatistics, createStatistics };
