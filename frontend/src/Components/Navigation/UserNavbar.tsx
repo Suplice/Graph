@@ -122,12 +122,12 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
           </button>
 
           <button
-            onClick={() => onTabChange("Graphs")}
+            onClick={() => onTabChange("Graph")}
             className="w-full text-left"
           >
             <li
               className={`${
-                selectedTab === "Graphs" ? "bg-[#d8d6d6] text-[#252525]" : ""
+                selectedTab === "Graph" ? "bg-[#d8d6d6] text-[#252525]" : ""
               } hover:bg-[#d8d6d6] p-2 px-3 w-full rounded-lg hover:text-[#252525] flex flex-row items-center`}
             >
               <VscGraph size={24} />
