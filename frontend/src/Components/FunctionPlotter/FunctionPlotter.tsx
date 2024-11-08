@@ -3,6 +3,20 @@ import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { motion } from "framer-motion";
 
+const isValidExpression = (input: string) => {
+  const regex = /^(\d+(\.\d+)?[*/^+-]?)*x?([*/^+-]?\d+(\.\d+)?)*$/;
+  return regex.test(input);
+};
+
+const incrementPlottedFunctions = () => {
+  const statistics = localStorage.getItem("statistics");
+  if (statistics) {
+    const parsedStatistics = JSON.parse(statistics);
+    parsedStatistics.plottedFunctions += 1;
+    localStorage.setItem("statistics", JSON.stringify(parsedStatistics));
+  }
+};
+
 Chart.register(...registerables);
 const FunctionPlotter: React.FC = () => {
   const [functionInput, setFunctionInput] = useState<string>("");
@@ -23,6 +37,7 @@ const FunctionPlotter: React.FC = () => {
         return null;
       }
     });
+    incrementPlottedFunctions();
 
     const validData = yValues.map((y, index) => (y !== null ? y : 0));
     setGraphData({
@@ -37,7 +52,7 @@ const FunctionPlotter: React.FC = () => {
 
     if (input.replace(/\s\t]+/g, "").substring(0, 2) === "y=") {
       generateGraphData(input.substring(2));
-    } else if (input) {
+    } else if (isValidExpression(input)) {
       generateGraphData(input);
     } else {
       setGraphData({ labels: [], data: [] });
