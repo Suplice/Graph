@@ -24,11 +24,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsLoggedIn(true);
         localStorage.setItem("token", await user.getIdToken());
         localStorage.setItem("uid", user.uid);
-        console.log(user);
       } else {
         setIsLoggedIn(false);
         localStorage.removeItem("token");
         localStorage.removeItem("uid");
+        localStorage.removeItem("statistics");
+        logout();
         console.log("User is not logged in");
       }
     });
