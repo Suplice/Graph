@@ -7,7 +7,7 @@ yarn-error.log
 frontend/build/
 frontend/dist/
 backend/build/
-backend/dist/
+backend/functions/lib/
 
 # Environment files
 frontend/.env
@@ -45,3 +45,4 @@ backend/functions/src/Config/serviceAccountKey.json
 frontend/firebaseConfig.ts
 frontend/src/firebaseConfig.ts
 frontend/src/firebaseConfig.ts
+
