@@ -2,11 +2,40 @@ import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { motion } from "framer-motion";
+import { debounce } from "../../utils/APIcalls/debouncer";
 
 const isValidExpression = (input: string) => {
   const regex = /^(\d+(\.\d+)?[*/^+-]?)*x?([*/^+-]?\d+(\.\d+)?)*$/;
   return regex.test(input);
 };
+
+const sendStatisticsToBackend = () => {
+  const statistics = localStorage.getItem("statistics");
+  const userId = localStorage.getItem("uid");
+  if (statistics) {
+    const parsedStatistics = JSON.parse(statistics);
+    fetch(
+      `${process.env.REACT_APP_API_URL}/statistics/setStatistics/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(parsedStatistics),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+};
+
+const debounceSendStatisticsToBackend = debounce(sendStatisticsToBackend, 2000);
 
 const incrementPlottedFunctions = () => {
   const statistics = localStorage.getItem("statistics");
@@ -15,6 +44,8 @@ const incrementPlottedFunctions = () => {
     parsedStatistics.plottedFunctions += 1;
     localStorage.setItem("statistics", JSON.stringify(parsedStatistics));
   }
+
+  debounceSendStatisticsToBackend();
 };
 
 Chart.register(...registerables);
