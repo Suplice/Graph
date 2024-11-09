@@ -1,17 +1,80 @@
-import React from "react";
+import { getMetadata, getStorage, listAll, ref } from "firebase/storage";
+import React, { useEffect } from "react";
 
-interface GraphMenmProps {
+interface GraphMenuProps {
   onChange: (selectedTab: string) => void;
 }
 
-const GraphMenu: React.FC<GraphMenmProps> = ({ onChange }) => {
-  const graphs = [
-    { id: 1, name: "Revenue Analysis", dateAdded: "2024-10-15" },
-    { id: 2, name: "Market Trends", dateAdded: "2024-10-18" },
-    { id: 3, name: "User Growth", dateAdded: "2024-10-20" },
-  ];
+const extractFileNameAndDate = (fileName: string) => {
+  const parts = fileName.split("-");
 
-  const recentGraphs = graphs.slice(0, 3);
+  const baseName: string = parts.slice(1, -1).join("-").split("+")[0];
+
+  const dateCreated: string =
+    parts[1].split("+")[1] + "-" + parts[2] + "-" + parts[3];
+
+  return {
+    dateCreated: dateCreated,
+    baseName: baseName,
+  };
+};
+
+const storage = getStorage();
+
+const getUserGraphs = async () => {
+  const userId = localStorage.getItem("uid");
+
+  if (!userId) {
+    console.error("User not authenticated");
+    return;
+  }
+
+  try {
+    const graphsRef = ref(storage, "graphs/");
+
+    const result = await listAll(graphsRef);
+
+    const userGraphs = await Promise.all(
+      result.items
+        .filter((item) => item.name.startsWith(userId))
+        .map(async (item) => {
+          return extractFileNameAndDate(item.name);
+        })
+    );
+
+    console.log("User graphs:", userGraphs);
+
+    return userGraphs;
+  } catch (error) {
+    console.error("Error fetching user graphs:", error);
+  }
+};
+
+const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
+  const [graphs, setGraphs] = React.useState<
+    { dateCreated: string; baseName: string }[]
+  >([]);
+
+  useEffect(() => {
+    getUserGraphs().then((data) => {
+      if (data) {
+        setGraphs(data);
+      }
+    });
+  }, []);
+
+  const recentGraphs = graphs
+    .sort((a, b) => {
+      const dateA = new Date(
+        (a.dateCreated.split("+").pop() || "").split("-").reverse().join("-")
+      );
+      const dateB = new Date(
+        (b.dateCreated.split("+").pop() || "").split("-").reverse().join("-")
+      );
+
+      return dateB.getTime() - dateA.getTime();
+    })
+    .slice(0, 3);
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-8 space-y-8">
@@ -46,22 +109,16 @@ const GraphMenu: React.FC<GraphMenmProps> = ({ onChange }) => {
         </h2>
         <ul className="space-y-4">
           {recentGraphs.map((graph) => (
-            <li
-              key={graph.id}
-              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
-            >
+            <li className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
               <div>
                 <h3 className="text-lg font-medium text-gray-800">
-                  {graph.name}
+                  {graph.baseName}
                 </h3>
                 <p className="text-sm text-gray-500">
-                  Added on: {graph.dateAdded}
+                  Added on: {graph.dateCreated}
                 </p>
               </div>
-              <button
-                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
-                onClick={() => console.log(`View Graph ${graph.id}`)}
-              >
+              <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
                 View
               </button>
             </li>
@@ -75,29 +132,20 @@ const GraphMenu: React.FC<GraphMenmProps> = ({ onChange }) => {
         </h2>
         <ul className="space-y-4">
           {graphs.map((graph) => (
-            <li
-              key={graph.id}
-              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
-            >
+            <li className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
               <div>
                 <h3 className="text-lg font-medium text-gray-800">
-                  {graph.name}
+                  {graph.baseName}
                 </h3>
                 <p className="text-sm text-gray-500">
-                  Added on: {graph.dateAdded}
+                  Added on: {graph.dateCreated}
                 </p>
               </div>
               <div className="flex space-x-4">
-                <button
-                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
-                  onClick={() => console.log(`View Graph ${graph.id}`)}
-                >
+                <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
                   View
                 </button>
-                <button
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-                  onClick={() => console.log(`Delete Graph ${graph.id}`)}
-                >
+                <button className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
                   Delete
                 </button>
               </div>
