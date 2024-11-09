@@ -1,6 +1,9 @@
 import React from "react";
+import { useMenuRoute } from "../../../Context/MenuRouteContext";
 
 const QuickStartGuideCard: React.FC = () => {
+  const { setSelectedTab } = useMenuRoute();
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center ">
@@ -27,7 +30,10 @@ const QuickStartGuideCard: React.FC = () => {
       </div>
 
       <div className="flex items-center justify-center">
-        <button className=" bg-indigo-500 text-white py-2 px-4 mt-10 rounded-lg  ">
+        <button
+          onClick={() => setSelectedTab("Graph")}
+          className=" bg-indigo-500 text-white py-2 px-4 mt-10 rounded-lg  "
+        >
           Get Started
         </button>
       </div>

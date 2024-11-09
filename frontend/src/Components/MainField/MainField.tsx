@@ -2,12 +2,11 @@ import React from "react";
 import Overview from "../Overview/Overview";
 import FunctionPlotter from "../FunctionPlotter/FunctionPlotter";
 import GraphManager from "../../Pages/GraphManager/GraphManager";
+import { useMenuRoute } from "../../Context/MenuRouteContext";
 
-interface MainFieldProps {
-  selectedTab: string;
-}
+const MainField: React.FC = () => {
+  const { selectedTab } = useMenuRoute();
 
-const MainField: React.FC<MainFieldProps> = ({ selectedTab }) => {
   const selectedComponent = () => {
     switch (selectedTab) {
       case "Overview":

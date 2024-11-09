@@ -1,6 +1,9 @@
 import React from "react";
+import { useMenuRoute } from "../../../Context/MenuRouteContext";
 
 const RecentUploadsCard: React.FC = () => {
+  const { setSelectedTab } = useMenuRoute();
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">
@@ -22,7 +25,10 @@ const RecentUploadsCard: React.FC = () => {
         </li>
       </ul>
 
-      <button className="w-full p-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200">
+      <button
+        onClick={() => setSelectedTab("Graph")}
+        className="w-full p-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
+      >
         Upload New File
       </button>
     </div>

@@ -14,17 +14,11 @@ import {
 import { RiHome6Line } from "react-icons/ri";
 import { GoArrowLeft } from "react-icons/go";
 import { CircularProgress } from "@mui/material";
-import { FcScatterPlot } from "react-icons/fc";
+import { useMenuRoute } from "../../Context/MenuRouteContext";
 
-interface UserNavbarProps {
-  selectedTab: string;
-  onTabChange: (tab: string) => void;
-}
+const UserNavbar: React.FC = () => {
+  const { selectedTab, setSelectedTab } = useMenuRoute();
 
-const UserNavbar: React.FC<UserNavbarProps> = ({
-  selectedTab,
-  onTabChange,
-}) => {
   const { logout, isLoggedIn } = useAuth();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,7 +41,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
       await fetch(`${process.env.REACT_APP_API_URL}/auth/user/${id}`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json", // Fixed header key
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
@@ -80,7 +74,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
 
         <ul className=" text-xl font-semibold space-y-2 text-[#797979]">
           <button
-            onClick={() => onTabChange("Overview")}
+            onClick={() => setSelectedTab("Overview")}
             className="w-full text-left"
           >
             <li
@@ -94,7 +88,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
           </button>
 
           <button
-            onClick={() => onTabChange("Dashboard")}
+            onClick={() => setSelectedTab("Dashboard")}
             className="w-full text-left"
           >
             <li
@@ -108,7 +102,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
           </button>
 
           <button
-            onClick={() => onTabChange("Plotter")}
+            onClick={() => setSelectedTab("Plotter")}
             className="w-full text-left"
           >
             <li
@@ -122,7 +116,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
           </button>
 
           <button
-            onClick={() => onTabChange("Graph")}
+            onClick={() => setSelectedTab("Graph")}
             className="w-full text-left"
           >
             <li
@@ -139,7 +133,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
       <div>
         <ul className=" text-xl font-semibold space-y-2 text-[#797979]">
           <button
-            onClick={() => onTabChange("Settings")}
+            onClick={() => setSelectedTab("Settings")}
             className="w-full text-left"
           >
             <li
@@ -152,7 +146,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
             </li>
           </button>
           <button
-            onClick={() => onTabChange("Support")}
+            onClick={() => setSelectedTab("Support")}
             className="w-full text-left"
           >
             <li
@@ -166,7 +160,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({
           </button>
           <button
             onClick={() => {
-              onTabChange("Logout");
+              setSelectedTab("Logout");
               logout();
             }}
             className="w-full text-left"
