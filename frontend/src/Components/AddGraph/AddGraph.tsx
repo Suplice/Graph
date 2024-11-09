@@ -38,6 +38,13 @@ interface AddGraphProps {
   onChange: (selectedTab: string) => void;
 }
 
+const incrementNewGraphsCount = () => {
+  const newGraphCount = localStorage.getItem("newGraphs");
+  if (newGraphCount) {
+    localStorage.setItem("newGraphs", (parseInt(newGraphCount) + 1).toString());
+  }
+};
+
 const getFormattedDate = () => {
   const date = new Date();
 
@@ -157,6 +164,7 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
             console.log("uploaded file");
           });
           alert("Graph data saved successfully!");
+          incrementNewGraphsCount();
         }
       }
     } catch (error) {
