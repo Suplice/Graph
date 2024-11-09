@@ -16,11 +16,11 @@ import { Bar, Pie, Line } from "react-chartjs-2";
 import {
   ref,
   uploadBytes,
-  getDownloadURL,
   uploadBytesResumable,
   getMetadata,
 } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 ChartJS.register(
   CategoryScale,
@@ -48,11 +48,11 @@ const incrementNewGraphsCount = () => {
 const getFormattedDate = () => {
   const date = new Date();
 
-  const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month (0-indexed)
-  const year = date.getFullYear(); // Get the full year
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
 
-  return `${day}-${month}-${year}`; // Format as DD-MM-YYYY
+  return `${day}-${month}-${year}`;
 };
 
 const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
@@ -61,6 +61,10 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
   const [fileName, setFileName] = useState<string>("");
 
   const [nameExists, setNameExists] = useState<boolean>(false);
+
+  const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [messageColor, setMessageColor] = useState<"red" | "green">("red");
 
   const [data, setData] = useState<{ name: string; value: number }[]>([
     {
@@ -83,6 +87,24 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
     };
     setData(updatedData);
     updateChartData(updatedData);
+  };
+
+  const createAndUploadCSV = async (
+    fileName: string,
+    formattedDate: string,
+    userId?: string
+  ) => {
+    const headers = "name,value\n";
+    const csvRows = data.map((item) => `${item.name},${item.value}`).join("\n");
+    const csvContent = headers + csvRows;
+    const csvBlob = new Blob([csvContent], { type: "text/csv" });
+
+    const dataRef = ref(
+      storage,
+      "graphs/" + userId + "-" + fileName + "+" + formattedDate
+    );
+
+    await uploadBytes(dataRef, csvBlob);
   };
 
   const handleGraphTypeChange = (
@@ -148,7 +170,7 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
       const file = fileInputRef.current?.files?.[0];
       const userId = localStorage.getItem("uid");
 
-      if (file) {
+      if (data.length > 0) {
         const formattedDate = getFormattedDate();
 
         const storageRef = ref(
@@ -157,138 +179,159 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
         );
         try {
           await getMetadata(storageRef);
-          alert("Error saving graph data!");
           setNameExists(true);
+          setMessage("File name already exists");
+          setMessageColor("red");
+          setIsMessageVisible(true);
         } catch (error) {
-          uploadBytesResumable(storageRef, file).then(() => {
-            console.log("uploaded file");
-          });
-          alert("Graph data saved successfully!");
+          if (file) {
+            uploadBytesResumable(storageRef, file).then(() => {
+              console.log("uploaded file");
+            });
+          } else {
+            createAndUploadCSV(fileName, formattedDate, userId || undefined);
+          }
+
           incrementNewGraphsCount();
+          setMessage("Graph created successfully!");
+          setMessageColor("green");
+          setIsMessageVisible(true);
+          setTimeout(() => onChange("overview"), 2000);
         }
       }
     } catch (error) {
       console.error("Error uploading data to Firebase Storage:", error);
-      alert("Error saving graph data!");
+      setMessage("Error saving graph data!");
+      setMessageColor("red");
+      setIsMessageVisible(true);
     }
   };
 
   return (
-    <div className="h-full bg-gray-100 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-8 h-[650px]">
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-700">Enter Data</h2>
-          <div className="space-y-4 overflow-auto h-[200px] px-3">
-            {data.map((entry, index) => (
-              <div key={index} className="flex items-center gap-2">
+    <>
+      <div className="h-full bg-gray-100 flex flex-col items-center justify-center p-6">
+        <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-8 h-[650px]">
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-700">Enter Data</h2>
+            <div className="space-y-4 overflow-auto h-[200px] px-3">
+              {data.map((entry, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    className="p-2 border rounded w-1/2"
+                    placeholder="Name"
+                    value={entry.name}
+                    onChange={(e) =>
+                      handleDataChange(index, "name", e.target.value)
+                    }
+                  />
+                  <input
+                    type="number"
+                    className="p-2 border rounded w-1/2"
+                    placeholder="Value"
+                    value={entry.value}
+                    onChange={(e) =>
+                      handleDataChange(index, "value", e.target.value)
+                    }
+                  />
+                  <button
+                    onClick={() => removeDataField(index)}
+                    className="text-red-500 font-bold"
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={addDataField}
+              className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+            >
+              Add Data
+            </button>
+
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-700">
+                Upload CSV
+              </label>
+              <input
+                placeholder="Choose File"
+                ref={fileInputRef}
+                type="file"
+                accept=".csv"
+                onChange={handleFileUpload}
+                className="mt-1 inline-block hover:cursor-pointer file:hover:cursor-pointer   text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+              />
+            </div>
+            <div className="flex flex-row  justify-center gap-3 pt-10">
+              <label className="text-lg font-semibold">Enter File Name:</label>
+              <div className="flex flex-col ">
                 <input
                   type="text"
-                  className="p-2 border rounded w-1/2"
-                  placeholder="Name"
-                  value={entry.name}
-                  onChange={(e) =>
-                    handleDataChange(index, "name", e.target.value)
-                  }
+                  className={`w-30 h-7 border p-2 rounded ${nameExists ? "border-red-500" : ""}`}
+                  value={fileName}
+                  onChange={(event) => {
+                    setFileName(event.target.value);
+                    console.log(fileName);
+                  }}
                 />
-                <input
-                  type="number"
-                  className="p-2 border rounded w-1/2"
-                  placeholder="Value"
-                  value={entry.value}
-                  onChange={(e) =>
-                    handleDataChange(index, "value", e.target.value)
-                  }
-                />
-                <button
-                  onClick={() => removeDataField(index)}
-                  className="text-red-500 font-bold"
-                >
-                  X
-                </button>
+                {nameExists && (
+                  <label className="text-sm text-red-600 px-1">
+                    file name already exists
+                  </label>
+                )}
               </div>
-            ))}
+            </div>
           </div>
-          <button
-            onClick={addDataField}
-            className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-          >
-            Add Data
-          </button>
 
-          <div className="mt-6">
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-700">
+              Graph Settings
+            </h2>
             <label className="block text-sm font-medium text-gray-700">
-              Upload CSV
+              Select Graph Type
             </label>
-            <input
-              placeholder="Choose File"
-              ref={fileInputRef}
-              type="file"
-              accept=".csv"
-              onChange={handleFileUpload}
-              className="mt-1 inline-block hover:cursor-pointer file:hover:cursor-pointer   text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600"
-            />
-          </div>
-          <div className="flex flex-row  justify-center gap-3 pt-10">
-            <label className="text-lg font-semibold">Enter File Name:</label>
-            <div className="flex flex-col ">
-              <input
-                type="text"
-                className={`w-30 h-7 border p-2 rounded ${nameExists ? "border-red-500" : ""}`}
-                value={fileName}
-                onChange={(event) => {
-                  setFileName(event.target.value);
-                  console.log(fileName);
-                }}
-              />
-              {nameExists && (
-                <label className="text-sm text-red-600 px-1">
-                  file name already exists
-                </label>
-              )}
+            <select
+              className="w-full p-2 border rounded"
+              value={graphType}
+              onChange={handleGraphTypeChange}
+            >
+              <option value="pie">Pie Chart</option>
+              <option value="bar">Bar Chart</option>
+              <option value="line">Line Chart</option>
+            </select>
+
+            <div className="mt-6 bg-gray-100 p-4 rounded-lg shadow-inner">
+              {chartData && graphType === "pie" && <Pie data={chartData} />}
+              {chartData && graphType === "bar" && <Bar data={chartData} />}
+              {chartData && graphType === "line" && <Line data={chartData} />}
             </div>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-700">
-            Graph Settings
-          </h2>
-          <label className="block text-sm font-medium text-gray-700">
-            Select Graph Type
-          </label>
-          <select
-            className="w-full p-2 border rounded"
-            value={graphType}
-            onChange={handleGraphTypeChange}
+        <div className="mt-8 flex gap-4">
+          <button
+            onClick={() => onChange("overview")}
+            className="bg-red-500 text-white py-2 px-6 rounded"
           >
-            <option value="pie">Pie Chart</option>
-            <option value="bar">Bar Chart</option>
-            <option value="line">Line Chart</option>
-          </select>
-
-          <div className="mt-6 bg-gray-100 p-4 rounded-lg shadow-inner">
-            {chartData && graphType === "pie" && <Pie data={chartData} />}
-            {chartData && graphType === "bar" && <Bar data={chartData} />}
-            {chartData && graphType === "line" && <Line data={chartData} />}
-          </div>
+            Cancel
+          </button>
+          <button
+            onClick={handleAddGraph}
+            className="bg-green-500 text-white py-2 px-6 rounded"
+          >
+            Add Graph
+          </button>
         </div>
       </div>
-
-      <div className="mt-8 flex gap-4">
-        <button
-          onClick={() => onChange("overview")}
-          className="bg-red-500 text-white py-2 px-6 rounded"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleAddGraph}
-          className="bg-green-500 text-white py-2 px-6 rounded"
-        >
-          Add Graph
-        </button>
-      </div>
-    </div>
+      <ErrorMessage
+        isVisible={isMessageVisible}
+        onClose={() => setIsMessageVisible(false)}
+        duration={2000}
+        message={message}
+        color={messageColor}
+      />
+    </>
   );
 };
 

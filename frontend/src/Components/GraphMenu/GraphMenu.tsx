@@ -42,8 +42,6 @@ const getUserGraphs = async () => {
         })
     );
 
-    console.log("User graphs:", userGraphs);
-
     return userGraphs;
   } catch (error) {
     console.error("Error fetching user graphs:", error);
@@ -62,6 +60,8 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
       }
     });
   }, []);
+
+  const deleteGraph = async (graphName: string) => {};
 
   const recentGraphs = graphs
     .sort((a, b) => {
@@ -88,8 +88,10 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
           <span className="text-gray-700">Total Graphs</span>
         </div>
         <div className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
-          <span className="text-3xl font-semibold text-green-500">2</span>
-          <span className="text-gray-700">Active Graphs</span>
+          <span className="text-3xl font-semibold text-green-500">
+            {localStorage.getItem("newGraphs") ?? 0}
+          </span>
+          <span className="text-gray-700">New Graphs</span>
         </div>
         <div className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
           <span className="text-3xl font-semibold text-purple-500">1</span>
@@ -108,8 +110,11 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
           Recently Added Graphs
         </h2>
         <ul className="space-y-4">
-          {recentGraphs.map((graph) => (
-            <li className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
+          {recentGraphs.map((graph, id) => (
+            <li
+              key={id}
+              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+            >
               <div>
                 <h3 className="text-lg font-medium text-gray-800">
                   {graph.baseName}
@@ -131,8 +136,11 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
           All Graphs
         </h2>
         <ul className="space-y-4">
-          {graphs.map((graph) => (
-            <li className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
+          {graphs.map((graph, id) => (
+            <li
+              key={id}
+              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+            >
               <div>
                 <h3 className="text-lg font-medium text-gray-800">
                   {graph.baseName}
