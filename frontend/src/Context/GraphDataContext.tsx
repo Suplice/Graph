@@ -16,6 +16,7 @@ interface GraphDataContextType {
 
   newGraphs: number;
   setNewGraphs: (value: number) => void;
+  setNewGraphsLocally: (value: number) => void;
 
   plottedFunctions: number;
   setPlottedFunctions: (value: number) => void;
@@ -42,12 +43,13 @@ export const GraphDataProvider: React.FC<{ children: React.ReactNode }> = ({
     dateCreated: string;
   }>({ baseName: "", dateCreated: "" });
 
-  const [newGraphs] = useState<number>(
+  const [newGraphs, setNewGraphs] = useState<number>(
     Number(localStorage.getItem("newGraphs")) | 0
   );
 
-  const setNewGraphs = (value: number) => {
+  const setNewGraphsLocally = (value: number) => {
     localStorage.setItem("newGraphs", value.toString());
+    setNewGraphs(value);
   };
 
   const { token, userId } = useAuth();
@@ -93,6 +95,7 @@ export const GraphDataProvider: React.FC<{ children: React.ReactNode }> = ({
         setUploadedDataSets,
         newGraphs,
         setNewGraphs,
+        setNewGraphsLocally,
         plottedFunctions,
         setPlottedFunctions,
         viewGraphData,

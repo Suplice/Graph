@@ -67,7 +67,7 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
 
   const {
     newGraphs,
-    setNewGraphs,
+    setNewGraphsLocally,
     createdGraphs,
     setCreatedGraphs,
     uploadedDataSets,
@@ -87,7 +87,7 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
 
   const incrementNewGraphsCount = () => {
     setCreatedGraphs(createdGraphs + 1);
-    setNewGraphs(newGraphs + 1);
+    setNewGraphsLocally(newGraphs + 1);
     console.log(createdGraphs);
   };
 
@@ -244,155 +244,151 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
   };
 
   return (
-    <>
+    <motion.div
+      className="h-[1000px] w-full bg-gray-100 flex flex-col items-center justify-center p-6"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       <motion.div
-        className="h-full bg-gray-100 flex flex-col items-center justify-center p-6"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
+        className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6 grid grid-cols-1 lg:grid-cols-2 gap-8"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
       >
-        <motion.div
-          className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-8 h-[650px]"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-700">Enter Data</h2>
-            <motion.div
-              className="space-y-4 overflow-auto h-[200px] px-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              {data.map((entry, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center gap-2"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <input
-                    type="text"
-                    className="p-2 border rounded w-1/2"
-                    placeholder="Name"
-                    value={entry.name}
-                    onChange={(e) =>
-                      handleDataChange(index, "name", e.target.value)
-                    }
-                  />
-                  <input
-                    type="number"
-                    className="p-2 border rounded w-1/2"
-                    placeholder="Value"
-                    value={entry.value}
-                    onChange={(e) =>
-                      handleDataChange(index, "value", e.target.value)
-                    }
-                  />
-                  <button
-                    onClick={() => removeDataField(index)}
-                    className="text-red-500 font-bold"
-                  >
-                    X
-                  </button>
-                </motion.div>
-              ))}
-            </motion.div>
-            <motion.button
-              onClick={addDataField}
-              className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-              whileHover={buttonVariants.hover}
-              whileTap={buttonVariants.tap}
-            >
-              Add Row
-            </motion.button>
-
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700">
-                Upload CSV
-              </label>
-              <input
-                placeholder="Choose File"
-                ref={fileInputRef}
-                type="file"
-                accept=".csv"
-                onChange={handleFileUpload}
-                className="mt-1 inline-block hover:cursor-pointer file:hover:cursor-pointer text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600"
-              />
-            </div>
-
-            <div className="flex flex-row justify-center gap-3 pt-10">
-              <label className="text-lg font-semibold">Enter File Name:</label>
-              <div className="flex flex-col">
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-gray-700">Enter Data</h2>
+          <motion.div
+            className="space-y-4 overflow-auto h-[200px] px-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            {data.map((entry, index) => (
+              <motion.div
+                key={index}
+                className="flex items-center gap-2"
+                whileHover={{ scale: 1.02 }}
+              >
                 <input
                   type="text"
-                  className={`w-30 h-7 border p-2 rounded ${
-                    nameExists ? "border-red-500" : ""
-                  }`}
-                  value={fileName}
-                  onChange={(event) => {
-                    setFileName(event.target.value);
-                    console.log(fileName);
-                  }}
+                  className="p-2 border rounded w-full md:w-1/2"
+                  placeholder="Name"
+                  value={entry.name}
+                  onChange={(e) =>
+                    handleDataChange(index, "name", e.target.value)
+                  }
                 />
-                {nameExists && (
-                  <label className="text-sm text-red-600 px-1">
-                    file name already exists
-                  </label>
-                )}
-              </div>
+                <input
+                  type="number"
+                  className="p-2 border rounded w-full md:w-1/2"
+                  placeholder="Value"
+                  value={entry.value}
+                  onChange={(e) =>
+                    handleDataChange(index, "value", e.target.value)
+                  }
+                />
+                <button
+                  onClick={() => removeDataField(index)}
+                  className="text-red-500 font-bold"
+                >
+                  X
+                </button>
+              </motion.div>
+            ))}
+          </motion.div>
+          <motion.button
+            onClick={addDataField}
+            className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+            whileHover={buttonVariants.hover}
+            whileTap={buttonVariants.tap}
+          >
+            Add Row
+          </motion.button>
+
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700">
+              Upload CSV
+            </label>
+            <input
+              placeholder="Choose File"
+              ref={fileInputRef}
+              type="file"
+              accept=".csv"
+              onChange={handleFileUpload}
+              className="mt-1 inline-block hover:cursor-pointer text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+            />
+          </div>
+
+          <div className="flex flex-col md:flex-row md:justify-between gap-3 pt-10">
+            <label className="text-lg font-semibold">Enter File Name:</label>
+            <div className="flex flex-col">
+              <input
+                type="text"
+                className={`w-full md:w-60 border p-2 rounded ${nameExists ? "border-red-500" : ""}`}
+                value={fileName}
+                onChange={(event) => {
+                  setFileName(event.target.value);
+                }}
+              />
+              {nameExists && (
+                <label className="text-sm text-red-600 px-1">
+                  file name already exists
+                </label>
+              )}
             </div>
           </div>
+        </div>
 
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-700">
-              Graph Settings
-            </h2>
-            <label className="block text-sm font-medium text-gray-700">
-              Select Graph Type
-            </label>
-            <select
-              className="w-full p-2 border rounded"
-              value={graphType}
-              onChange={handleGraphTypeChange}
-            >
-              <option value="pie">Pie Chart</option>
-              <option value="bar">Bar Chart</option>
-              <option value="line">Line Chart</option>
-            </select>
-
-            <motion.div
-              className="mt-6 bg-gray-100 p-4 rounded-lg shadow-inner"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              {chartData && graphType === "pie" && <Pie data={chartData} />}
-              {chartData && graphType === "bar" && <Bar data={chartData} />}
-              {chartData && graphType === "line" && <Line data={chartData} />}
-            </motion.div>
-          </div>
-        </motion.div>
-
-        <div className="mt-8 flex gap-4">
-          <motion.button
-            onClick={() => onChange("overview")}
-            className="bg-red-500 text-white py-2 px-6 rounded"
-            whileHover={buttonVariants.hover}
-            whileTap={buttonVariants.tap}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-gray-700">
+            Graph Settings
+          </h2>
+          <label className="block text-sm font-medium text-gray-700">
+            Select Graph Type
+          </label>
+          <select
+            className="w-full p-2 border rounded"
+            value={graphType}
+            onChange={handleGraphTypeChange}
           >
-            Cancel
-          </motion.button>
-          <motion.button
-            onClick={handleAddGraph}
-            className="bg-green-500 text-white py-2 px-6 rounded"
-            whileHover={buttonVariants.hover}
-            whileTap={buttonVariants.tap}
+            <option value="pie">Pie Chart</option>
+            <option value="bar">Bar Chart</option>
+            <option value="line">Line Chart</option>
+          </select>
+
+          <motion.div
+            className="mt-6 bg-gray-100 p-4 rounded-lg shadow-inner"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
           >
-            Add Graph
-          </motion.button>
+            {chartData && graphType === "pie" && <Pie data={chartData} />}
+            {chartData && graphType === "bar" && <Bar data={chartData} />}
+            {chartData && graphType === "line" && <Line data={chartData} />}
+          </motion.div>
         </div>
       </motion.div>
+
+      <div className="mt-8 flex gap-4">
+        <motion.button
+          onClick={() => onChange("overview")}
+          className="bg-red-500 text-white py-2 px-6 rounded"
+          whileHover={buttonVariants.hover}
+          whileTap={buttonVariants.tap}
+        >
+          Cancel
+        </motion.button>
+        <motion.button
+          onClick={handleAddGraph}
+          className="bg-green-500 text-white py-2 px-6 rounded"
+          whileHover={buttonVariants.hover}
+          whileTap={buttonVariants.tap}
+        >
+          Add Graph
+        </motion.button>
+      </div>
+
       <ErrorMessage
         isVisible={isMessageVisible}
         onClose={() => setIsMessageVisible(false)}
@@ -400,7 +396,7 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
         message={message}
         color={messageColor}
       />
-    </>
+    </motion.div>
   );
 };
 
