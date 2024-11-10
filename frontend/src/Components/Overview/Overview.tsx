@@ -1,12 +1,12 @@
 import React from "react";
-import RecentUploadsCard from "../OverviewCards/RecentUploadsCard/RecentUploadsCard";
 import GraphTypesCard from "../OverviewCards/GraphTypesCard/GraphTypesCard";
-import FavoriteGraphsCard from "../OverviewCards/FavoriteGraphsCard/FacoriteGraphsCard";
 import QuickStartGuideCard from "../OverviewCards/QuickStartGuideCard/QuickStartGuideCard";
 import StatisticsSummaryCard from "../OverviewCards/StatisticsSummaryCard/StatisticsSummaryCard";
 import FunctionPlotterPreviewCard from "../OverviewCards/FunctionPlotterPreviewCard/FunctionPlotterPreviewCard";
 import "./Overview.css";
 import { motion } from "framer-motion";
+import FunFactsCard from "../OverviewCards/RecentUploadsCard/FunFactsCard";
+import GraphDesignTipsCard from "../OverviewCards/FavoriteGraphsCard/GraphDesignTipsCard";
 
 const Overview: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const Overview: React.FC = () => {
         initial={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <RecentUploadsCard />
+        <FunFactsCard />
       </motion.div>
       <motion.div
         className="graph-types"
@@ -33,7 +33,7 @@ const Overview: React.FC = () => {
         initial={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <FavoriteGraphsCard />
+        <GraphDesignTipsCard />
       </motion.div>
       <motion.div
         className="quick-start-guide"
