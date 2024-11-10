@@ -186,7 +186,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
           {recentGraphs.map((graph, id) => (
             <motion.li
               key={id}
-              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm md:flex-row flex-col gap-2 md:gap-0"
               variants={cardVariants}
             >
               <div>
@@ -226,7 +226,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
           {graphs.map((graph, id) => (
             <motion.li
               key={id}
-              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+              className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm flex-col md:flex-row gap-2 md:gap-0"
               variants={cardVariants}
             >
               <div>
@@ -237,7 +237,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                   Added on: {graph.dateCreated}
                 </p>
               </div>
-              <div className="flex space-x-4">
+              <div className="flex md:space-x-4 flex-col md:flex-row items-center justify-center gap-3">
                 <button
                   onClick={() => {
                     onChange("ViewGraph");
@@ -246,7 +246,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                       dateCreated: graph.dateCreated,
                     });
                   }}
-                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition w-24"
                 >
                   View
                 </button>
@@ -254,7 +254,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                   onClick={() =>
                     deleteGraph(graph.baseName, graph.dateCreated, id)
                   }
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition w-24"
                 >
                   Delete
                 </button>
