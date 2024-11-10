@@ -54,15 +54,13 @@ const getFormattedDate = () => {
 };
 
 const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const [fileName, setFileName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messageColor, setMessageColor] = useState<"red" | "green">("red");
 
-  const { userId } = useAuth();
+  const { userId, token } = useAuth();
 
   const { viewGraphData } = useGraphData();
 
@@ -148,7 +146,11 @@ const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
     try {
       if (data.length > 0) {
         const formattedDate = getFormattedDate();
-        await createAndUploadCSV(fileName, formattedDate, userId || undefined);
+        await createAndUploadCSV(
+          viewGraphData.baseName,
+          formattedDate,
+          userId || undefined
+        );
         setMessage("Data updated successfully!");
         setMessageColor("green");
         setIsMessageVisible(true);
@@ -178,15 +180,23 @@ const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
 
   useEffect(() => {
     const getGraphData = async () => {
+      setIsLoading(true);
       const filePath = `graphs/${userId}-${viewGraphData.baseName}+${viewGraphData.dateCreated}`;
+      console.log(filePath);
       const storageRef = ref(storage, filePath);
 
       try {
         const url = await getDownloadURL(storageRef);
 
-        const response = await fetch(url);
-        const csvText = await response.text();
+        const response = await fetch(url, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
 
+        if (!response.ok) {
+          throw new Error(`Error fetching file: ${response.statusText}`);
+        }
+
+        const csvText = await response.text();
         const parsedData = Papa.parse(csvText, {
           header: true,
           dynamicTyping: true,
@@ -197,6 +207,8 @@ const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
         updateChartData(graphData);
       } catch (error) {
         console.error("Error fetching graph data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -231,38 +243,50 @@ const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                {data.map((entry, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-center gap-2"
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <input
-                      type="text"
-                      className="p-2 border rounded w-1/2"
-                      placeholder="Name"
-                      value={entry.name}
-                      onChange={(e) =>
-                        handleDataChange(index, "name", e.target.value)
-                      }
-                    />
-                    <input
-                      type="number"
-                      className="p-2 border rounded w-1/2"
-                      placeholder="Value"
-                      value={entry.value}
-                      onChange={(e) =>
-                        handleDataChange(index, "value", e.target.value)
-                      }
-                    />
-                    <button
-                      onClick={() => removeDataField(index)}
-                      className="text-red-500 font-bold"
+                {isLoading ? (
+                  <div role="status" className="max-w-sm animate-pulse">
+                    <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+                    <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+                    <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                    <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+                    <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+                    <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  data.map((entry, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex items-center gap-2"
+                      whileHover={{ scale: 1.02 }}
                     >
-                      X
-                    </button>
-                  </motion.div>
-                ))}
+                      <input
+                        type="text"
+                        className="p-2 border rounded w-1/2"
+                        placeholder="Name"
+                        value={entry.name}
+                        onChange={(e) =>
+                          handleDataChange(index, "name", e.target.value)
+                        }
+                      />
+                      <input
+                        type="number"
+                        className="p-2 border rounded w-1/2"
+                        placeholder="Value"
+                        value={entry.value}
+                        onChange={(e) =>
+                          handleDataChange(index, "value", e.target.value)
+                        }
+                      />
+                      <button
+                        onClick={() => removeDataField(index)}
+                        className="text-red-500 font-bold"
+                      >
+                        X
+                      </button>
+                    </motion.div>
+                  ))
+                )}
               </motion.div>
               <motion.button
                 onClick={addDataField}
