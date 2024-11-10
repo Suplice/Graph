@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import { motion } from "framer-motion";
 
 Chart.register(...registerables);
 
