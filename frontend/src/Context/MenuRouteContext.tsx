@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
 interface MenuRouteContextType {
   selectedTab: string;
@@ -12,7 +12,7 @@ const MenuRouteContext = React.createContext<MenuRouteContextType | undefined>(
 export const MenuRouteProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [selectedTab, setSelectedTab] = React.useState<string>("");
+  const [selectedTab, setSelectedTab] = useState<string>("");
 
   return (
     <MenuRouteContext.Provider value={{ selectedTab, setSelectedTab }}>
@@ -22,7 +22,7 @@ export const MenuRouteProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const useMenuRoute = (): MenuRouteContextType => {
-  const context = React.useContext(MenuRouteContext);
+  const context = useContext(MenuRouteContext);
 
   if (context === undefined) {
     throw new Error("useMenuRoute must be used within a MenuRouteProvider");
