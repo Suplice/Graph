@@ -19,6 +19,9 @@ interface GraphDataContextType {
 
   plottedFunctions: number;
   setPlottedFunctions: (value: number) => void;
+
+  viewGraphData: { baseName: string; dateCreated: string };
+  setViewGraphData: (value: { baseName: string; dateCreated: string }) => void;
 }
 
 const GraphDataContext = React.createContext<GraphDataContextType | undefined>(
@@ -33,6 +36,11 @@ export const GraphDataProvider: React.FC<{ children: React.ReactNode }> = ({
   const [uploadedDataSets, setUploadedDataSets] = useState<number>(0);
 
   const [plottedFunctions, setPlottedFunctions] = useState<number>(0);
+
+  const [viewGraphData, setViewGraphData] = useState<{
+    baseName: string;
+    dateCreated: string;
+  }>({ baseName: "", dateCreated: "" });
 
   const [newGraphs] = useState<number>(
     Number(localStorage.getItem("newGraphs")) | 0
@@ -87,6 +95,8 @@ export const GraphDataProvider: React.FC<{ children: React.ReactNode }> = ({
         setNewGraphs,
         plottedFunctions,
         setPlottedFunctions,
+        viewGraphData,
+        setViewGraphData,
       }}
     >
       {children}
