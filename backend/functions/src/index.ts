@@ -12,9 +12,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "https://grapher-api-unique.web.app",
+      "http://localhost:3000",
+      "https://grapher-api-unique.firebaseapp.com",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
