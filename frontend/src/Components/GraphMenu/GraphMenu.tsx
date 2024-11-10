@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { useMenuRoute } from "../../Context/MenuRouteContext";
 import { useAuth } from "../../Context/AuthContext";
 import { useGraphData } from "../../Context/GraphDataContext";
+import { motion } from "framer-motion";
 
 interface GraphMenuProps {
   onChange: (selectedTab: string) => void;
@@ -34,7 +35,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
   >([]);
 
   const { userId } = useAuth();
-  const { newGraphs } = useGraphData();
+  const { newGraphs, setViewGraphData } = useGraphData();
 
   useEffect(() => {
     getUserGraphs().then((data) => {
@@ -102,45 +103,91 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
       return dateB.getTime() - dateA.getTime();
     })
     .slice(0, 3);
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-8 space-y-8">
-      <h1 className="text-4xl font-bold text-gray-800">Graph Manager</h1>
+      <motion.h1
+        className="text-4xl font-bold text-gray-800"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        Graph Manager
+      </motion.h1>
 
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
+      <motion.div
+        className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4"
+        initial="hidden"
+        animate="visible"
+        variants={listVariants}
+      >
+        <motion.div
+          className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center"
+          variants={cardVariants}
+        >
           <span className="text-3xl font-semibold text-blue-500">
             {graphs.length}
           </span>
           <span className="text-gray-700">Total Graphs</span>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
+        </motion.div>
+
+        <motion.div
+          className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center"
+          variants={cardVariants}
+        >
           <span className="text-3xl font-semibold text-green-500">
             {newGraphs}
           </span>
           <span className="text-gray-700">New Graphs</span>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
+        </motion.div>
+
+        <motion.div
+          className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center"
+          variants={cardVariants}
+        >
           <span className="text-3xl font-semibold text-purple-500">1</span>
           <span className="text-gray-700">Recently Viewed</span>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <button
+      <motion.button
         className="w-full max-w-4xl px-8 py-4 bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 transition duration-200"
         onClick={() => onChange("AddGraphPage")}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         Add New Graph
-      </button>
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6">
+      </motion.button>
+
+      <motion.div
+        className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="text-2xl font-semibold mb-4 text-gray-700">
           Recently Added Graphs
         </h2>
-        <ul className="space-y-4">
+        <motion.ul
+          className="space-y-4"
+          initial="hidden"
+          animate="visible"
+          variants={listVariants}
+        >
           {recentGraphs.map((graph, id) => (
-            <li
+            <motion.li
               key={id}
               className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+              variants={cardVariants}
             >
               <div>
                 <h3 className="text-lg font-medium text-gray-800">
@@ -150,23 +197,37 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                   Added on: {graph.dateCreated}
                 </p>
               </div>
-              <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
+              <button
+                onClick={() => onChange("ViewGraph")}
+                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+              >
                 View
               </button>
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </div>
+        </motion.ul>
+      </motion.div>
 
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6">
+      <motion.div
+        className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="text-2xl font-semibold mb-4 text-gray-700">
           All Graphs
         </h2>
-        <ul className="space-y-4">
+        <motion.ul
+          className="space-y-4"
+          initial="hidden"
+          animate="visible"
+          variants={listVariants}
+        >
           {graphs.map((graph, id) => (
-            <li
+            <motion.li
               key={id}
               className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+              variants={cardVariants}
             >
               <div>
                 <h3 className="text-lg font-medium text-gray-800">
@@ -177,7 +238,16 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                 </p>
               </div>
               <div className="flex space-x-4">
-                <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
+                <button
+                  onClick={() => {
+                    onChange("ViewGraph");
+                    setViewGraphData({
+                      baseName: graph.baseName,
+                      dateCreated: graph.dateCreated,
+                    });
+                  }}
+                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+                >
                   View
                 </button>
                 <button
@@ -189,10 +259,10 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                   Delete
                 </button>
               </div>
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </div>
+        </motion.ul>
+      </motion.div>
     </div>
   );
 };
