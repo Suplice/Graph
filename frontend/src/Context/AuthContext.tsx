@@ -5,6 +5,8 @@ import { auth } from "../firebaseConfig";
 interface AuthContextType {
   isLoggedIn: boolean;
   logout: () => void;
+  userId?: string;
+  token?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -13,26 +15,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [userId, setUserId] = useState<string | undefined>(
+    localStorage.getItem("userId") || undefined
+  );
+  const [token, setToken] = useState<string | undefined>(
+    localStorage.getItem("token") || undefined
+  );
 
   const logout = async () => {
     await auth.signOut();
+    setIsLoggedIn(false);
+    setUserId(undefined);
+    setToken(undefined);
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        const userId = user.uid;
+        const token = await user.getIdToken();
+
         setIsLoggedIn(true);
-        localStorage.setItem("token", await user.getIdToken());
-        localStorage.setItem("uid", user.uid);
-        localStorage.setItem("newGraphs", "0");
+        setUserId(userId);
+        setToken(token);
+
+        // Save to local storage
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("token", token);
       } else {
-        setIsLoggedIn(false);
-        localStorage.removeItem("token");
-        localStorage.removeItem("uid");
-        localStorage.removeItem("statistics");
-        localStorage.removeItem("newGraphs");
         logout();
-        console.log("User is not logged in");
       }
     });
 
@@ -42,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, logout, userId, token }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,51 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { motion } from "framer-motion";
-import { debounce } from "../../utils/APIcalls/debouncer";
+import { debounceSendStatisticsToBackend } from "../../utils/APIcalls/debouncer";
+import { useGraphData } from "../../Context/GraphDataContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const isValidExpression = (input: string) => {
   const regex = /^(\d+(\.\d+)?[*/^+-]?)*x?([*/^+-]?\d+(\.\d+)?)*$/;
   return regex.test(input);
 };
 
-const sendStatisticsToBackend = () => {
-  const statistics = localStorage.getItem("statistics");
-  const userId = localStorage.getItem("uid");
-  if (statistics) {
-    const parsedStatistics = JSON.parse(statistics);
-    fetch(
-      `${process.env.REACT_APP_API_URL}/statistics/setStatistics/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(parsedStatistics),
-      }
-    )
-      .then((res) => res.json())
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-};
-
-const debounceSendStatisticsToBackend = debounce(sendStatisticsToBackend, 2000);
-
-const incrementPlottedFunctions = () => {
-  const statistics = localStorage.getItem("statistics");
-  if (statistics) {
-    const parsedStatistics = JSON.parse(statistics);
-    parsedStatistics.plottedFunctions += 1;
-    localStorage.setItem("statistics", JSON.stringify(parsedStatistics));
-  }
-
-  debounceSendStatisticsToBackend();
-};
-
 Chart.register(...registerables);
+
 const FunctionPlotter: React.FC = () => {
   const [functionInput, setFunctionInput] = useState<string>("");
   const [graphData, setGraphData] = useState<{
@@ -55,6 +22,19 @@ const FunctionPlotter: React.FC = () => {
     labels: [],
     data: [],
   });
+
+  const {
+    plottedFunctions,
+    setPlottedFunctions,
+    createdGraphs,
+    uploadedDataSets,
+  } = useGraphData();
+
+  const { userId, token } = useAuth();
+
+  const incrementPlottedFunctions = () => {
+    setPlottedFunctions(plottedFunctions + 1);
+  };
 
   const generateGraphData = (func: string) => {
     const xValues = Array.from({ length: 100 }, (_, i) => i - 50);
@@ -99,6 +79,16 @@ const FunctionPlotter: React.FC = () => {
       },
     ],
   };
+
+  useEffect(() => {
+    debounceSendStatisticsToBackend(
+      createdGraphs,
+      uploadedDataSets,
+      plottedFunctions,
+      userId,
+      token
+    );
+  }, [plottedFunctions]);
 
   return (
     <motion.div

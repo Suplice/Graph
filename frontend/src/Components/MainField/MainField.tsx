@@ -3,6 +3,7 @@ import Overview from "../Overview/Overview";
 import FunctionPlotter from "../FunctionPlotter/FunctionPlotter";
 import GraphManager from "../../Pages/GraphManager/GraphManager";
 import { useMenuRoute } from "../../Context/MenuRouteContext";
+import { GraphDataProvider } from "../../Context/GraphDataContext";
 
 const MainField: React.FC = () => {
   const { selectedTab } = useMenuRoute();
@@ -21,9 +22,11 @@ const MainField: React.FC = () => {
   };
 
   return (
-    <div className="w-5/6   bg-[#FFFFFF] rounded-lg border-2 border-gray-300 overflow-auto">
-      {selectedComponent()}
-    </div>
+    <GraphDataProvider>
+      <div className="w-5/6   bg-[#FFFFFF] rounded-lg border-2 border-gray-300 overflow-auto">
+        {selectedComponent()}
+      </div>
+    </GraphDataProvider>
   );
 };
 

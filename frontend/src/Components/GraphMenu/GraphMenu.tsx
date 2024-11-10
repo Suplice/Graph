@@ -1,5 +1,14 @@
-import { getMetadata, getStorage, listAll, ref } from "firebase/storage";
+import {
+  getMetadata,
+  getStorage,
+  listAll,
+  ref,
+  deleteObject,
+} from "firebase/storage";
 import React, { useEffect } from "react";
+import { useMenuRoute } from "../../Context/MenuRouteContext";
+import { useAuth } from "../../Context/AuthContext";
+import { useGraphData } from "../../Context/GraphDataContext";
 
 interface GraphMenuProps {
   onChange: (selectedTab: string) => void;
@@ -19,39 +28,13 @@ const extractFileNameAndDate = (fileName: string) => {
   };
 };
 
-const storage = getStorage();
-
-const getUserGraphs = async () => {
-  const userId = localStorage.getItem("uid");
-
-  if (!userId) {
-    console.error("User not authenticated");
-    return;
-  }
-
-  try {
-    const graphsRef = ref(storage, "graphs/");
-
-    const result = await listAll(graphsRef);
-
-    const userGraphs = await Promise.all(
-      result.items
-        .filter((item) => item.name.startsWith(userId))
-        .map(async (item) => {
-          return extractFileNameAndDate(item.name);
-        })
-    );
-
-    return userGraphs;
-  } catch (error) {
-    console.error("Error fetching user graphs:", error);
-  }
-};
-
 const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
   const [graphs, setGraphs] = React.useState<
     { dateCreated: string; baseName: string }[]
   >([]);
+
+  const { userId } = useAuth();
+  const { newGraphs } = useGraphData();
 
   useEffect(() => {
     getUserGraphs().then((data) => {
@@ -61,7 +44,51 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
     });
   }, []);
 
-  const deleteGraph = async (graphName: string) => {};
+  const storage = getStorage();
+
+  const getUserGraphs = async () => {
+    if (!userId) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    try {
+      const graphsRef = ref(storage, "graphs/");
+
+      const result = await listAll(graphsRef);
+
+      const userGraphs = await Promise.all(
+        result.items
+          .filter((item) => item.name.startsWith(userId))
+          .map(async (item) => {
+            return extractFileNameAndDate(item.name);
+          })
+      );
+
+      return userGraphs;
+    } catch (error) {
+      console.error("Error fetching user graphs:", error);
+    }
+  };
+
+  const deleteGraph = async (
+    graphName: string,
+    dateCreated: string,
+    id: number
+  ) => {
+    const graphRef = ref(
+      storage,
+      `graphs/${userId}-${graphName}+${dateCreated}`
+    );
+
+    try {
+      await deleteObject(graphRef);
+      const newGraphs = graphs.filter((_, index) => index !== id);
+      setGraphs(newGraphs);
+    } catch (error) {
+      console.error("Error deleting graph:", error);
+    }
+  };
 
   const recentGraphs = graphs
     .sort((a, b) => {
@@ -89,7 +116,7 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
         </div>
         <div className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
           <span className="text-3xl font-semibold text-green-500">
-            {localStorage.getItem("newGraphs") ?? 0}
+            {newGraphs}
           </span>
           <span className="text-gray-700">New Graphs</span>
         </div>
@@ -153,7 +180,12 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                 <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
                   View
                 </button>
-                <button className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
+                <button
+                  onClick={() =>
+                    deleteGraph(graph.baseName, graph.dateCreated, id)
+                  }
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                >
                   Delete
                 </button>
               </div>

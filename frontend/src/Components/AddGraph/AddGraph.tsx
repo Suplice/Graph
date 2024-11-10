@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Papa from "papaparse";
 import {
   Chart as ChartJS,
@@ -21,6 +21,9 @@ import {
 } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { useAuth } from "../../Context/AuthContext";
+import { useGraphData } from "../../Context/GraphDataContext";
+import { debounceSendStatisticsToBackend } from "../../utils/APIcalls/debouncer";
 
 ChartJS.register(
   CategoryScale,
@@ -37,13 +40,6 @@ ChartJS.register(
 interface AddGraphProps {
   onChange: (selectedTab: string) => void;
 }
-
-const incrementNewGraphsCount = () => {
-  const newGraphCount = localStorage.getItem("newGraphs");
-  if (newGraphCount) {
-    localStorage.setItem("newGraphs", (parseInt(newGraphCount) + 1).toString());
-  }
-};
 
 const getFormattedDate = () => {
   const date = new Date();
@@ -66,14 +62,34 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
   const [message, setMessage] = useState<string>("");
   const [messageColor, setMessageColor] = useState<"red" | "green">("red");
 
+  const { userId, token } = useAuth();
+
+  const {
+    newGraphs,
+    setNewGraphs,
+    createdGraphs,
+    setCreatedGraphs,
+    uploadedDataSets,
+    setUploadedDataSets,
+    plottedFunctions,
+  } = useGraphData();
+
   const [data, setData] = useState<{ name: string; value: number }[]>([
     {
       name: "Test Data",
       value: 10,
     },
   ]);
+
   const [graphType, setGraphType] = useState("pie");
   const [chartData, setChartData] = useState<any>(null);
+
+  const incrementNewGraphsCount = () => {
+    console.log("i am here incrementing ajdwijahbdlkjawndjklsna");
+    setCreatedGraphs(createdGraphs + 1);
+    setNewGraphs(newGraphs + 1);
+    console.log(createdGraphs);
+  };
 
   const handleDataChange = (
     index: number,
@@ -162,13 +178,13 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
         },
       });
     }
+    setUploadedDataSets(uploadedDataSets + 1);
   };
 
   const handleAddGraph = async () => {
     setNameExists(false);
     try {
       const file = fileInputRef.current?.files?.[0];
-      const userId = localStorage.getItem("uid");
 
       if (data.length > 0) {
         const formattedDate = getFormattedDate();
@@ -206,6 +222,16 @@ const AddGraph: React.FC<AddGraphProps> = ({ onChange }) => {
       setIsMessageVisible(true);
     }
   };
+
+  useEffect(() => {
+    debounceSendStatisticsToBackend(
+      createdGraphs,
+      uploadedDataSets,
+      plottedFunctions,
+      userId,
+      token
+    );
+  }, [createdGraphs, uploadedDataSets, plottedFunctions]);
 
   return (
     <>

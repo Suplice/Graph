@@ -13,6 +13,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
+import { useAuth } from "../../Context/AuthContext";
 
 const SignIn: React.FC = () => {
   const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
@@ -27,6 +28,8 @@ const SignIn: React.FC = () => {
   const [messageColor, setMessageColor] = useState<"red" | "green">("red");
 
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
+
+  const { token, userId } = useAuth();
 
   const showErrorMessage = () => {
     setIsErrorVisible(true);
@@ -60,7 +63,6 @@ const SignIn: React.FC = () => {
         loginData.email,
         loginData.password
       );
-      const token = await userCredential.user.getIdToken();
 
       // Send token to backend for validation
       const response = await fetch(
@@ -78,7 +80,6 @@ const SignIn: React.FC = () => {
         throw new Error("Failed to validate token");
       }
 
-      localStorage.setItem("token", token);
       setMessageColor("green");
     } catch (error) {
       setMessageColor("red");

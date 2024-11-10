@@ -1,63 +1,12 @@
 import React, { useEffect, useState } from "react";
-
-interface statistics {
-  createdGraphs: number;
-  plottedFunctions: number;
-  uploadedDataSets: number;
-}
+import { useAuth } from "../../../Context/AuthContext";
+import { useGraphData } from "../../../Context/GraphDataContext";
 
 const StatisticsSummaryCard: React.FC = () => {
-  const [statistics, setStatistics] = useState<statistics>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      try {
-        const id = localStorage.getItem("uid");
-        const token = localStorage.getItem("token");
-
-        if (!id || !token) {
-          console.error("User ID or token is missing from localStorage.");
-          setIsLoading(false);
-          return;
-        }
-
-        const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/statistics/getStatistics/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!res.ok) {
-          console.error("Failed to fetch statistics");
-          setIsLoading(false);
-          return;
-        }
-
-        const data: statistics = await res.json();
-
-        setStatistics(data);
-        localStorage.setItem("statistics", JSON.stringify(data));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (!localStorage.getItem("statistics")) {
-      fetchData();
-    } else {
-      setStatistics(JSON.parse(localStorage.getItem("statistics") as string));
-    }
-  }, []);
+  const { userId, token } = useAuth();
+  const { plottedFunctions, uploadedDataSets, createdGraphs } = useGraphData();
 
   return (
     <>
@@ -115,7 +64,7 @@ const StatisticsSummaryCard: React.FC = () => {
             >
               <span className="text-lg font-medium">Created Graphs</span>
               <span className="text-xl font-bold text-indigo-600">
-                {statistics?.createdGraphs}
+                {createdGraphs}
               </span>
             </div>
             <div
@@ -123,7 +72,7 @@ const StatisticsSummaryCard: React.FC = () => {
             >
               <span className="text-lg font-medium">Uploaded datasets</span>
               <span className="text-xl font-bold text-indigo-600">
-                {statistics?.uploadedDataSets}
+                {uploadedDataSets}
               </span>
             </div>
             <div
@@ -131,7 +80,7 @@ const StatisticsSummaryCard: React.FC = () => {
             >
               <span className="text-lg font-medium">Plotted functions</span>
               <span className="text-xl font-bold text-indigo-600">
-                {statistics?.plottedFunctions}
+                {plottedFunctions}
               </span>
             </div>
           </div>

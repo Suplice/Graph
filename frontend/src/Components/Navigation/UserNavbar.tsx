@@ -28,6 +28,8 @@ const UserNavbar: React.FC = () => {
   const [userSurname, setUserSurname] = useState<string>("");
   const [isUserMenuShown, setIsUserMenuShown] = useState<boolean>(false);
 
+  const { token, userId } = useAuth();
+
   useEffect(() => {
     const fetchUserData = async () => {
       setIsLoading(true);
@@ -36,13 +38,11 @@ const UserNavbar: React.FC = () => {
         return;
       }
 
-      const id = localStorage.getItem("uid");
-
-      await fetch(`${process.env.REACT_APP_API_URL}/auth/user/${id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/auth/user/${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((response) => response.json())
