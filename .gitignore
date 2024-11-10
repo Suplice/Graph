@@ -46,3 +46,6 @@ frontend/firebaseConfig.ts
 frontend/src/firebaseConfig.ts
 frontend/src/firebaseConfig.ts
 
+frontend/firebase.json
+frontend/cors.json
+frontend/.firebaserc
