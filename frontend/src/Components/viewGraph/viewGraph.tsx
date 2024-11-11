@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import {
   Chart as ChartJS,
@@ -13,18 +13,11 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
-import {
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-  getMetadata,
-  getDownloadURL,
-} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { useAuth } from "../../Context/AuthContext";
 import { useGraphData } from "../../Context/GraphDataContext";
-import { debounceSendStatisticsToBackend } from "../../utils/APIcalls/debouncer";
 import { motion } from "framer-motion";
 
 ChartJS.register(
@@ -180,6 +173,8 @@ const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
 
   useEffect(() => {
     const getGraphData = async () => {
+      console.log(viewGraphData);
+
       setIsLoading(true);
       const filePath = `graphs/${userId}-${viewGraphData.baseName}+${viewGraphData.dateCreated}`;
 
