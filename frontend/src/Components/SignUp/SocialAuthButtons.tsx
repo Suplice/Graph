@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   auth,
   facebookProvider,
@@ -7,9 +7,11 @@ import {
   signInWithPopup,
 } from "../../firebaseConfig";
 import { toast } from "react-toastify";
-import { RegisterDTO } from "../../Dto/RegisterDTO";
+import { useAuth } from "../../Context/AuthContext";
 
 const SocialAuthButtons: React.FC = () => {
+  const { setLoginState } = useAuth();
+
   const socialPlatforms = [
     { src: "/Images/google.png", alt: "Google", provider: googleProvider },
     {
@@ -23,15 +25,16 @@ const SocialAuthButtons: React.FC = () => {
   const handleSocialLogin = async (provider: any) => {
     try {
       const result: any = await signInWithPopup(auth, provider);
+      const token = await result.user.getIdToken();
+      const userId = result.user.uid;
 
-      const userExists = checkIfUserExistsInDatabase(
-        result.user.uid as string,
-        (await result.user.getIdToken()) as string
-      );
+      const userExists = await checkIfUserExistsInDatabase(userId, token);
 
       if (!userExists) {
-        handleCreateUserInDatabase(result);
+        await handleCreateUserInDatabase(result);
       }
+
+      setLoginState();
     } catch (error: any) {
       toast.error("An error occurred while logging in. Please try again.", {
         position: "top-center",
@@ -45,35 +48,33 @@ const SocialAuthButtons: React.FC = () => {
 
   const handleCreateUserInDatabase = async (result: any) => {
     const token = await result.user.getIdToken();
-
-    console.log("i will now change data in statistics!");
-
     const email = result._tokenResponse.email;
-    const firstName = result._tokenResponse.displayName.split(" ")[0] as string;
-    const lastName = (result._tokenResponse.displayName.split(" ")[1] as string)
-      ? (result._tokenResponse.displayName.split(" ")[1] as string)
-      : "";
+    const displayName = result._tokenResponse.displayName || "";
+    const [firstName, lastName] = displayName.split(" ");
 
-    await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password: "",
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error creating user in database:", error);
-      });
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            firstName: firstName || "",
+            lastName: lastName || "",
+            email,
+            password: "",
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log("User created in database:", data);
+    } catch (error) {
+      console.error("Error creating user in database:", error);
+    }
   };
 
   const checkIfUserExistsInDatabase = async (userId: string, token: string) => {
@@ -94,10 +95,10 @@ const SocialAuthButtons: React.FC = () => {
       }
 
       const data = await response.json();
-
       return !!data;
     } catch (error) {
       console.error("Error checking if user exists in database:", error);
+      return false;
     }
   };
 
@@ -105,8 +106,8 @@ const SocialAuthButtons: React.FC = () => {
     <div className="flex flex-row text-center gap-4 mt-7">
       {socialPlatforms.map((platform, id) => (
         <div
-          onClick={() => handleSocialLogin(platform.provider)}
           key={id}
+          onClick={() => handleSocialLogin(platform.provider)}
           className="flex-grow bg-slate-200 rounded-md p-2 flex justify-center shadow-md shadow-gray-500 hover:bg-slate-300 transition-colors hover:cursor-pointer"
         >
           <img src={platform.src} alt={platform.alt} className="w-6" />

@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
 
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
-  const { token } = useAuth();
+  const { token, setLoginState } = useAuth();
 
   const showErrorMessage = () => {
     setIsErrorVisible(true);
@@ -81,6 +81,7 @@ const SignIn: React.FC = () => {
       }
 
       setMessageColor("green");
+      setLoginState();
     } catch (error) {
       setMessageColor("red");
     } finally {
