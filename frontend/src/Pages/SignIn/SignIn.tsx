@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
 
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
-  const { token, userId } = useAuth();
+  const { token } = useAuth();
 
   const showErrorMessage = () => {
     setIsErrorVisible(true);

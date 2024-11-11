@@ -182,6 +182,7 @@ const ViewGraph: React.FC<AddGraphProps> = ({ onChange }) => {
     const getGraphData = async () => {
       setIsLoading(true);
       const filePath = `graphs/${userId}-${viewGraphData.baseName}+${viewGraphData.dateCreated}`;
+
       console.log(filePath);
       const storageRef = ref(storage, filePath);
 
