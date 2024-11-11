@@ -85,7 +85,7 @@ const UserNavbar: React.FC = () => {
   return (
     <nav
       className={`h-screen bg-[#eeecec] px-4 py-4 lg:px-6 lg:py-6 z-10  lg:relative flex flex-col justify-between transition-all duration-300 ease-linear overflow-auto
-        ${isExpanded ? "w-64 fixed" : "w-20 lg:w-1/6 overflow-hidden "}`}
+        ${isExpanded ? "w-64 " : "w-20 lg:w-1/6 overflow-hidden "}`}
     >
       <div>
         <button
@@ -109,17 +109,20 @@ const UserNavbar: React.FC = () => {
           Menu
         </p>
 
-        {/* Linki Menu */}
         <ul className="text-xl font-semibold space-y-2 text-[#797979]">
           <button
             onClick={() => setSelectedTab("Overview")}
             className="w-full text-left"
           >
             <li
-              className={`p-2 px-3 w-full rounded-lg flex flex-row items-center ${selectedTab === "Overview" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
+              className={`p-2 lg:px-3 md:px-2  w-full rounded-lg flex flex-row items-center ${selectedTab === "Overview" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
             >
-              <RiHome6Line size={24} />
-              {isExpanded && <p className="ml-3 text-xl">Overview</p>}
+              <RiHome6Line size={24} className="flex-shrink-0" />
+              {isExpanded && (
+                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
+                  Overview
+                </p>
+              )}
             </li>
           </button>
 
@@ -128,10 +131,14 @@ const UserNavbar: React.FC = () => {
             className="w-full text-left"
           >
             <li
-              className={`p-2 px-3 w-full rounded-lg flex flex-row items-center ${selectedTab === "Plotter" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
+              className={`p-2 lg:px-3 md:px-2 w-full rounded-lg flex flex-row items-center ${selectedTab === "Plotter" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
             >
-              <MdAutoGraph size={24} />
-              {isExpanded && <p className="ml-3 text-xl">Plotter</p>}
+              <MdAutoGraph size={24} className="flex-shrink-0" />
+              {isExpanded && (
+                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
+                  Plotter
+                </p>
+              )}
             </li>
           </button>
 
@@ -140,16 +147,19 @@ const UserNavbar: React.FC = () => {
             className="w-full text-left"
           >
             <li
-              className={`p-2 px-3 w-full rounded-lg flex flex-row items-center ${selectedTab === "Graph" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
+              className={`p-2 lg:px-3 md:px-2 w-full rounded-lg flex flex-row items-center ${selectedTab === "Graph" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
             >
-              <VscGraph size={24} />
-              {isExpanded && <p className="ml-3 text-xl">Graphs</p>}
+              <VscGraph size={24} className="flex-shrink-0" />
+              {isExpanded && (
+                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
+                  Graphs
+                </p>
+              )}
             </li>
           </button>
         </ul>
       </div>
 
-      {/* Linki na Dole Menu */}
       <div>
         <ul className="text-xl font-semibold space-y-2 text-[#797979]">
           <button
@@ -157,10 +167,14 @@ const UserNavbar: React.FC = () => {
             className="w-full text-left"
           >
             <li
-              className={`p-2 px-3 w-full rounded-lg flex flex-row items-center ${selectedTab === "Settings" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
+              className={`p-2 lg:px-3 md:px-2 w-full rounded-lg flex flex-row items-center ${selectedTab === "Settings" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
             >
-              <IoSettingsOutline size={24} />
-              {isExpanded && <p className="ml-3 text-xl">Settings</p>}
+              <IoSettingsOutline size={24} className="flex-shrink-0" />
+              {isExpanded && (
+                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
+                  Settings
+                </p>
+              )}
             </li>
           </button>
 
@@ -169,10 +183,14 @@ const UserNavbar: React.FC = () => {
             className="w-full text-left"
           >
             <li
-              className={`p-2 px-3 w-full rounded-lg flex flex-row items-center ${selectedTab === "Support" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
+              className={`p-2 lg:px-3 md:px-2 w-full rounded-lg flex flex-row items-center ${selectedTab === "Support" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
             >
-              <MdOutlineContactSupport size={24} />
-              {isExpanded && <p className="ml-3 text-xl">Support</p>}
+              <MdOutlineContactSupport size={24} className="flex-shrink-0" />
+              {isExpanded && (
+                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
+                  Support
+                </p>
+              )}
             </li>
           </button>
 
@@ -184,15 +202,18 @@ const UserNavbar: React.FC = () => {
             className="w-full text-left"
           >
             <li
-              className={`p-2 px-3 w-full rounded-lg flex flex-row items-center ${selectedTab === "Logout" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
+              className={`p-2 lg:px-3 md:px-2 w-full rounded-lg flex flex-row items-center ${selectedTab === "Logout" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
             >
-              <GoArrowLeft size={24} />
-              {isExpanded && <p className="ml-3 text-xl">Logout</p>}
+              <GoArrowLeft size={24} className="flex-shrink-0" />
+              {isExpanded && (
+                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
+                  Logout
+                </p>
+              )}
             </li>
           </button>
         </ul>
 
-        {/* Profil Użytkownika */}
         <button
           onClick={() => setIsUserMenuShown(!isUserMenuShown)}
           className="w-full mt-3"
