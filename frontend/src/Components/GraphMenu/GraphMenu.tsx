@@ -212,6 +212,10 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                       ? Number(localStorage.getItem("recentlyViewedGraphs")) + 1
                       : 1
                   );
+                  setViewGraphData({
+                    baseName: graph.baseName,
+                    dateCreated: graph.dateCreated,
+                  });
                 }}
                 className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
               >
