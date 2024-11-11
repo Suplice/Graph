@@ -45,6 +45,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", token);
       } else {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        localStorage.removeItem("newGraphs");
+        localStorage.removeItem("recentlyViewedGraphs");
         logout();
       }
     });

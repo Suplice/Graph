@@ -18,6 +18,10 @@ interface GraphDataContextType {
   setNewGraphs: (value: number) => void;
   setNewGraphsLocally: (value: number) => void;
 
+  recentlyViewedGraphs: number;
+  setRecentlyViewedGraphsLocally: (value: number) => void;
+  setRecentlyViewedGraphs: (value: number) => void;
+
   plottedFunctions: number;
   setPlottedFunctions: (value: number) => void;
 
@@ -47,9 +51,18 @@ export const GraphDataProvider: React.FC<{ children: React.ReactNode }> = ({
     Number(localStorage.getItem("newGraphs")) | 0
   );
 
+  const [recentlyViewedGraphs, setRecentlyViewedGraphs] = useState<number>(
+    Number(localStorage.getItem("recentlyViewedGraphs")) | 0
+  );
+
   const setNewGraphsLocally = (value: number) => {
     localStorage.setItem("newGraphs", value.toString());
     setNewGraphs(value);
+  };
+
+  const setRecentlyViewedGraphsLocally = (value: number) => {
+    localStorage.setItem("recentlyViewedGraphs", value.toString());
+    setRecentlyViewedGraphs(value);
   };
 
   const { token, userId } = useAuth();
@@ -100,6 +113,9 @@ export const GraphDataProvider: React.FC<{ children: React.ReactNode }> = ({
         setPlottedFunctions,
         viewGraphData,
         setViewGraphData,
+        recentlyViewedGraphs,
+        setRecentlyViewedGraphs,
+        setRecentlyViewedGraphsLocally,
       }}
     >
       {children}

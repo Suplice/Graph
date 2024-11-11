@@ -35,7 +35,12 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
   >([]);
 
   const { userId } = useAuth();
-  const { newGraphs, setViewGraphData } = useGraphData();
+  const {
+    newGraphs,
+    setViewGraphData,
+    setRecentlyViewedGraphsLocally,
+    recentlyViewedGraphs,
+  } = useGraphData();
 
   useEffect(() => {
     getUserGraphs().then((data) => {
@@ -154,7 +159,9 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
           className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center"
           variants={cardVariants}
         >
-          <span className="text-3xl font-semibold text-purple-500">1</span>
+          <span className="text-3xl font-semibold text-purple-500">
+            {recentlyViewedGraphs}
+          </span>
           <span className="text-gray-700">Recently Viewed</span>
         </motion.div>
       </motion.div>
@@ -198,7 +205,14 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                 </p>
               </div>
               <button
-                onClick={() => onChange("ViewGraph")}
+                onClick={() => {
+                  onChange("ViewGraph");
+                  setRecentlyViewedGraphsLocally(
+                    localStorage.getItem("recentlyViewedGraphs")
+                      ? Number(localStorage.getItem("recentlyViewedGraphs")) + 1
+                      : 1
+                  );
+                }}
                 className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
               >
                 View
@@ -241,6 +255,12 @@ const GraphMenu: React.FC<GraphMenuProps> = ({ onChange }) => {
                 <button
                   onClick={() => {
                     onChange("ViewGraph");
+                    setRecentlyViewedGraphsLocally(
+                      localStorage.getItem("recentlyViewedGraphs")
+                        ? Number(localStorage.getItem("recentlyViewedGraphs")) +
+                            1
+                        : 1
+                    );
                     setViewGraphData({
                       baseName: graph.baseName,
                       dateCreated: graph.dateCreated,
