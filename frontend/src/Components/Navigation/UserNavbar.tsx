@@ -163,23 +163,13 @@ const UserNavbar: React.FC = () => {
       <div>
         <ul className="text-xl font-semibold space-y-2 text-[#797979]">
           <button
-            onClick={() => setSelectedTab("Settings")}
-            className="w-full text-left"
-          >
-            <li
-              className={`p-2 lg:px-3 md:px-2 w-full rounded-lg flex flex-row items-center ${selectedTab === "Settings" ? "bg-[#d8d6d6] text-[#252525]" : "hover:bg-[#d8d6d6] hover:text-[#252525]"}`}
-            >
-              <IoSettingsOutline size={24} className="flex-shrink-0" />
-              {isExpanded && (
-                <p className="ml-3 text-xl text-ellipsis overflow-hidden">
-                  Settings
-                </p>
-              )}
-            </li>
-          </button>
-
-          <button
-            onClick={() => setSelectedTab("Support")}
+            onClick={() =>
+              window.open(
+                "https://firebase.google.com/support",
+                "_blank",
+                "noopener,noreferrer"
+              )
+            }
             className="w-full text-left"
           >
             <li

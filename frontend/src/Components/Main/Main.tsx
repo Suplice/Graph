@@ -27,10 +27,6 @@ const Main: React.FC = () => {
           <Layout>
             <Routes>
               <Route
-                path="*"
-                element={isLoggedIn ? <Navigate to="/home" /> : <Landing />}
-              ></Route>
-              <Route
                 path="/"
                 element={isLoggedIn ? <Navigate to="/home" /> : <Landing />}
               ></Route>
