@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import Loading from "../Pages/Loading/Loading";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   logout: () => void;
   userId?: string;
   token?: string;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -14,7 +16,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userId, setUserId] = useState<string | undefined>(
     localStorage.getItem("userId") || undefined
   );
@@ -51,6 +54,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.removeItem("recentlyViewedGraphs");
         logout();
       }
+
+      setIsLoading(false);
     });
 
     return () => {
@@ -59,8 +64,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, logout, userId, token }}>
-      {children}
+    <AuthContext.Provider
+      value={{ isLoggedIn, logout, userId, token, isLoading }}
+    >
+      {isLoading ? <Loading /> : children}
     </AuthContext.Provider>
   );
 };
