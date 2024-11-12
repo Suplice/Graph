@@ -1,0 +1,29 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+
+  backend:
+    build:
+      context: .
+      dockerfile: dockerfile.backend
+    ports:
+      - 8080:8080 # **FIRESTORE_PORT**
+      - 5005:5005 # **FIRESTORE_WS_PORT**
+      - 4000:4000 # **UI_PORT**
+      - 5001:5001 # **EMULATOR_PORT**
+    volumes:
+      - ./backend:/app
+      - ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
+      - FIREBASE_TOKEN=1//0c49sBxyLkkxYCgYIARAAGAwSNwF-L9IrGVfWqK9bD39wrEdvVjdjVzn3_AjlIqUyejIL287kc8_yn9SLIl3-W56fVnAsXaazjek
+    stdin_open: true
+    tty: true
