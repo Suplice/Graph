@@ -39,8 +39,6 @@ backend/.prettierignore
 backend/.prettierrc
 backend/dist/index.js
 TODO
-backend/.firebaserc
-backend/firebase.json
 backend/functions/src/Config/serviceAccountKey.json
 frontend/firebaseConfig.ts
 frontend/src/firebaseConfig.ts
