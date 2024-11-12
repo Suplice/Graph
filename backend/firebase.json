@@ -18,11 +18,7 @@
       "host": "0.0.0.0",
       "port": 5001
     },
-    "firestore": {
-      "host": "0.0.0.0",
-      "port": 8080,
-      "websocketPort": 5005
-    },
+
     "ui": {
       "enabled": true,
       "host": "0.0.0.0",

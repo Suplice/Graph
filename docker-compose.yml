@@ -15,8 +15,6 @@ services:
       context: .
       dockerfile: dockerfile.backend
     ports:
-      - 8080:8080 # **FIRESTORE_PORT**
-      - 5005:5005 # **FIRESTORE_WS_PORT**
       - 4000:4000 # **UI_PORT**
       - 5001:5001 # **EMULATOR_PORT**
     volumes:
