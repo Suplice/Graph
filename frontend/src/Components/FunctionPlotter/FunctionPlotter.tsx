@@ -92,7 +92,7 @@ const FunctionPlotter: React.FC = () => {
 
   return (
     <motion.div
-      className="bg-[#F3F4F6] rounded-xl shadow-lg p-8 w-full h-max "
+      className="bg-[#F3F4F6] rounded-xl shadow-lg p-8 w-full h-full "
       initial={{ opacity: 0.0 }}
       animate={{ opacity: 1.0, transition: { duration: 0.7 } }}
       exit={{ opacity: 0.0 }}
