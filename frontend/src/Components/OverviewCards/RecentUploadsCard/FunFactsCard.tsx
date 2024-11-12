@@ -20,7 +20,7 @@ const FunFactsCard: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 w-full h-full border border-gray-200 flex flex-col items-center">
+    <div className="bg-slate-300 rounded-xl shadow-lg p-8 w-full h-full border border-gray-200 flex flex-col items-center">
       <h3 className="text-2xl font-bold mb-4 text-gray-800">Fun Fact</h3>
 
       <motion.div

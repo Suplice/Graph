@@ -59,7 +59,7 @@ const FunctionPlotterPreviewCard: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
+    <div className="bg-slate-300 rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
       <h2 className="text-2xl font-semibold text-gray-800">Function Plotter</h2>
       <p className="text-gray-600 mt-2">
         Plot your mathematical functions below.

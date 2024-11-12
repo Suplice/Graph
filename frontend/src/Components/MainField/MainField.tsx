@@ -23,7 +23,7 @@ const MainField: React.FC = () => {
 
   return (
     <GraphDataProvider>
-      <div className=" w-full   bg-[#FFFFFF] rounded-lg border-2 border-gray-300 overflow-auto">
+      <div className=" w-full   bg-[#FFFFFF]   border-gray-300 overflow-auto">
         {selectedComponent()}
       </div>
     </GraphDataProvider>

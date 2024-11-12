@@ -10,7 +10,7 @@ const StatisticsSummaryCard: React.FC = () => {
 
   return (
     <>
-      <div className="bg-white rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
+      <div className="bg-slate-300 rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Statistics Summary
         </h2>

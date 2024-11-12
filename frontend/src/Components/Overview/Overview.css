@@ -6,9 +6,9 @@
   grid-template-areas:
     "recent-uploads graph-types favorite-graphs"
     "statistics-summary quick-start-guide function-plotter-preview";
-  padding: 16px;
-  margin: auto;
-  overflow: auto;
+  padding: 0px 16px 0px 16px;
+  padding-top: 8px;
+  background-color: #f3f4f6;
 }
 
 /* Specific positioning for each component */

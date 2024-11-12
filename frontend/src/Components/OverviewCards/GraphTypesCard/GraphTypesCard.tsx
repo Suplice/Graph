@@ -2,7 +2,7 @@ import React from "react";
 
 const GraphTypesCard: React.FC = () => {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
+    <div className="bg-slate-300 rounded-xl shadow-lg p-6 w-full h-full border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center ">
         Graph Types
       </h2>
