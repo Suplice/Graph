@@ -215,10 +215,16 @@ const UserNavbar: React.FC = () => {
               className="w-8 h-8 rounded-full"
             />
             {isExpanded && (
-              <div className="flex flex-col ml-3 overflow-hidden text-left">
+              <div
+                className={`flex  flex-col ${isLoading ? "ml-auto items-center justify-center" : "ml-3"}  overflow-hidden text-left `}
+              >
                 {isLoading ? (
-                  <div className="flex items-center justify-center pt-2">
-                    <CircularProgress size={30} color="primary" />
+                  <div className="flex items-center justify-center pt-2 ml-auto">
+                    <CircularProgress
+                      size={30}
+                      color="primary"
+                      className="ml-auto"
+                    />
                   </div>
                 ) : (
                   <>
