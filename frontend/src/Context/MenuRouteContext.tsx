@@ -12,7 +12,7 @@ const MenuRouteContext = React.createContext<MenuRouteContextType | undefined>(
 export const MenuRouteProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [selectedTab, setSelectedTab] = useState<string>("");
+  const [selectedTab, setSelectedTab] = useState<string>("Overview");
 
   return (
     <MenuRouteContext.Provider value={{ selectedTab, setSelectedTab }}>
