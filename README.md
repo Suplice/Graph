@@ -60,7 +60,12 @@ https://grapher-api-unique.firebaseapp.com/
 ### Database
   - Firestore
   - Firebase Storage
-
+  - 
+### Additional Tools
+- VS Code
+- ES Lint
+- Prettier
+- Docker
 
 
 ## Contact
